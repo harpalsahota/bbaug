@@ -7,6 +7,7 @@ from collections import namedtuple
 import random
 from typing import (
     List,
+    NamedTuple,
     Tuple,
 )
 
@@ -18,10 +19,11 @@ import numpy as np
 
 from bbaug.augmentations.augmentations import NAME_TO_AUGMENTATION
 
+POLICY_TUPLE_TYPE = NamedTuple('policy', [('name', str), ('probability', float), ('magnitude', str)])
 POLICY_TUPLE = namedtuple('policy', ['name', 'probability', 'magnitude'])
 
 
-def policies_v3() -> List[POLICY_TUPLE[str, float, int]]:
+def policies_v3() -> List[List[POLICY_TUPLE_TYPE]]:
     """
     Version 3 of augmentation policies
 ​
@@ -95,7 +97,7 @@ def policies_v3() -> List[POLICY_TUPLE[str, float, int]]:
 
 class PolicyContainer:
 
-    def __init__(self, policy_list, name_to_augmentation=NAME_TO_AUGMENTATION):
+    def __init__(self, policy_list, name_to_augmentation=NAME_TO_AUGMENTATION, return_yolo=False):
         self.policies = policy_list
         self.augmentations = name_to_augmentation
 
