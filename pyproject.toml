@@ -11,7 +11,6 @@ torchvision = {url = "https://download.pytorch.org/whl/cu101/torchvision-0.5.0-c
 imgaug = "^0.4.0"
 
 [tool.poetry.dev-dependencies]
-bumpversion = "^0.5.3"
 pytest = "^5.4.1"
 flake8 = "^3.7.9"
 jupyterlab = "^2.0.1"
