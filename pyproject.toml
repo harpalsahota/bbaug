@@ -1,8 +1,8 @@
 [tool.poetry]
 name = "bbaug"
-version = "0.1.0"
+version = "0.0.0"
 description = "Bounding box augmentations for Pytorch"
-authors = ["Harpal Sahota <harpal28sahota@gmail.com>"]
+authors = ["Harpal Sahota"]
 
 [tool.poetry.dependencies]
 python = "^3.6"
