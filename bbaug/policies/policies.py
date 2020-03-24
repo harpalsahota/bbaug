@@ -100,6 +100,7 @@ class PolicyContainer:
     def __init__(self, policy_list, name_to_augmentation=NAME_TO_AUGMENTATION, return_yolo=False):
         self.policies = policy_list
         self.augmentations = name_to_augmentation
+        self.return_yolo = return_yolo
 
     def __getitem__(self, item):
         return self.augmentations[item]
@@ -114,6 +115,17 @@ class PolicyContainer:
             ]
             for bb in bounding_boxes
         ])
+
+    def _bbs_to_pixel(self, bounding_boxes):
+        return np.array([
+            [
+                bb.x1,
+                bb.y1,
+                bb.x2,
+                bb.y2
+            ]
+            for bb in bounding_boxes
+        ]).astype('int32')
 
     def select_random_policy(self):
         return random.choice(self.policies)
@@ -135,4 +147,8 @@ class PolicyContainer:
                     aug = self[i.name](i.magnitude)
                 image, bbs = aug(image=image, bounding_boxes=bbs)
                 bbs = bbs.remove_out_of_image().clip_out_of_image()
-        return image, self._bbs_to_percent(bbs, image.shape[0], image.shape[1])
+        if self.return_yolo:
+            bbs = self._bbs_to_percent(bbs, image.shape[0], image.shape[1])
+        else:
+            bbs = self._bbs_to_pixel(bbs)
+        return image, bbs
