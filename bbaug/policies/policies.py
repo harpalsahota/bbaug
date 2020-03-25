@@ -204,7 +204,7 @@ class PolicyContainer:
             self,
             policy: List[POLICY_TUPLE],
             image: np.array,
-            bounding_boxes: List[List[int, int, int, int]]
+            bounding_boxes: List[List[int]]
     ) -> Tuple[np.array, np.array]:
         """
         Applies the augmentations to the image.
@@ -213,7 +213,7 @@ class PolicyContainer:
         :param policy: Augmentation policy to apply to the image
         :type image: np.array
         :param image: Image to augment
-        :type bounding_boxes: List[List[int, int, int, int]]
+        :type bounding_boxes: List[List[int]]
         :param bounding_boxes: Bounding boxes for the image in the format:
                                [x_min, y_min, x_max, y_max]
         :rtype: Tuple[np.array, np.array]
