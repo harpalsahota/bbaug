@@ -14,7 +14,11 @@ setup(
     long_description=long_description,
     long_description_content_type='text/markdown',
     url='https://github.com/harpalsahota/bbaug',
-    packages=['bbaug'],
+    packages=[
+        'bbaug',
+        'bbaug.augmentations',
+        'bbaug.policies',
+    ],
     python_requires='>=3.5',
     install_requires=[
         'imgaug',
