@@ -24,6 +24,13 @@ from bbaug.augmentations.augmentations import NAME_TO_AUGMENTATION
 POLICY_TUPLE_TYPE = NamedTuple('policy', [('name', str), ('probability', float), ('magnitude', str)])
 POLICY_TUPLE = namedtuple('policy', ['name', 'probability', 'magnitude'])
 
+__all__ = [
+    'POLICY_TUPLE_TYPE',
+    'POLICY_TUPLE',
+    'policies_v3',
+    'PolicyContainer',
+]
+
 
 def policies_v3() -> List[List[POLICY_TUPLE_TYPE]]:
     """
