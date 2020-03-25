@@ -13,6 +13,8 @@ CUTOUT_BBOX = 50
 CUTOUT_CONST = 100
 
 __all__ = [
+    'negate',
+    'NAME_TO_AUGMENTATION',
     'auto_contrast',
     'brightness',
     'colour',
@@ -28,6 +30,7 @@ __all__ = [
     'translate_x_bbox',
     'translate_y_bbox',
 ]
+
 
 def negate(func):
     """
