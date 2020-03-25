@@ -12,6 +12,22 @@ BBOX_TRANSLATION = 120
 CUTOUT_BBOX = 50
 CUTOUT_CONST = 100
 
+__all__ = [
+    'auto_contrast',
+    'brightness',
+    'colour',
+    'contrast',
+    'cutout',
+    'cutout_bbox',
+    'equalise',
+    'posterize',
+    'rotate_bbox',
+    'sharpness',
+    'shear_y_bbox',
+    'solarize_add',
+    'translate_x_bbox',
+    'translate_y_bbox',
+]
 
 def negate(func):
     """
