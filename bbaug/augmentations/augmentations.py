@@ -7,6 +7,8 @@ from functools import wraps
 from imgaug import augmenters as iaa
 import numpy as np
 
+from bbaug.exceptions import InvalidMagnitude
+
 _MAX_MAGNITUDE = 10.0
 BBOX_TRANSLATION = 120
 CUTOUT_BBOX = 50
@@ -47,6 +49,25 @@ def negate(func):
     return wrapper
 
 
+def validate_magnitude(func):
+    """
+    Wrapper func to ensure magnitude is within the expected range
+
+    :param func: func to test magnitude of
+    :return: func
+    """
+    @wraps(func)
+    def wrapper(*args, **kwargs):
+        magnitude = args[0]
+        if (magnitude < 0) or (magnitude > 10):
+            raise InvalidMagnitude(
+                f'Magnitude should be > 0 and < 10. Actual value: {magnitude}'
+            )
+        return func(*args, **kwargs)
+    return wrapper
+
+
+@validate_magnitude
 def _img_enhance_to_arg(magnitude: int) -> float:
     """
     Determine the magnitude of the image enhancement
@@ -60,6 +81,7 @@ def _img_enhance_to_arg(magnitude: int) -> float:
 
 
 @negate
+@validate_magnitude
 def _rotate_mag_to_arg(magnitude: int) -> float:
     """
     Determine rotation magnitude
@@ -73,6 +95,7 @@ def _rotate_mag_to_arg(magnitude: int) -> float:
 
 
 @negate
+@validate_magnitude
 def _shear_mag_to_arg(magnitude: int) -> float:
     """
     Determine shear magnitude
@@ -86,6 +109,7 @@ def _shear_mag_to_arg(magnitude: int) -> float:
 
 
 @negate
+@validate_magnitude
 def _translate_bbox_mag_to_arg(magnitude: int) -> int:
     """
     Determine translation magnitude in pixels
@@ -149,6 +173,7 @@ def contrast(magnitude: int) -> iaa.GammaContrast:
     return iaa.GammaContrast(level)
 
 
+@validate_magnitude
 def cutout(magnitude: int, **kwargs) -> iaa.Cutout:
     """
     Apply cutout to an image
@@ -175,6 +200,7 @@ def cutout(magnitude: int, **kwargs) -> iaa.Cutout:
     return iaa.Cutout(**cutout_args)
 
 
+@validate_magnitude
 def cutout_bbox(magnitude: int, **kwargs) -> iaa.BlendAlphaBoundingBoxes:
     """
     Apply cutout only to the bounding box region
@@ -218,6 +244,7 @@ def equalise(_: int) -> iaa.AllChannelsHistogramEqualization:
     return iaa.AllChannelsHistogramEqualization()
 
 
+@validate_magnitude
 def posterize(magnitude: int):
     """
     Posterize image
@@ -275,6 +302,7 @@ def shear_y_bbox(magnitude: int) -> iaa.ShearY:
     return iaa.ShearY(level)
 
 
+@validate_magnitude
 def solarize_add(magnitude: int):
     """
     Add solarize to an image
