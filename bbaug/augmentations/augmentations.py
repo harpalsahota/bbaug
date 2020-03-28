@@ -318,7 +318,7 @@ def solarize_add(magnitude: int):
         image_added, image_copy = image.copy(), image.copy()
         image_added = image_added + level
         image_added = np.clip(image_added, 0, 255)
-        image_copy[np.where(image_copy < threshold)] = image_added[np.where(image_copy < threshold)]
+        image_copy[np.where(image_copy < threshold)] = image_added[np.where(image_copy < threshold)]  # noqa: 501
         return image_copy, bounding_boxes
     return aug
 

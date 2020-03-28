@@ -21,7 +21,10 @@ import numpy as np
 
 from bbaug.augmentations.augmentations import NAME_TO_AUGMENTATION
 
-POLICY_TUPLE_TYPE = NamedTuple('policy', [('name', str), ('probability', float), ('magnitude', str)])
+POLICY_TUPLE_TYPE = NamedTuple(
+    'policy',
+    [('name', str), ('probability', float), ('magnitude', str)]
+)
 POLICY_TUPLE = namedtuple('policy', ['name', 'probability', 'magnitude'])
 
 __all__ = [
@@ -112,8 +115,8 @@ class PolicyContainer:
     def __init__(
             self,
             policy_list: List[List[POLICY_TUPLE_TYPE]],
-            name_to_augmentation: Dict[str, Callable]=NAME_TO_AUGMENTATION,
-            return_yolo=False
+            name_to_augmentation: Dict[str, Callable] = NAME_TO_AUGMENTATION,
+            return_yolo: bool = False
     ):
         """
         Policy container initialisation

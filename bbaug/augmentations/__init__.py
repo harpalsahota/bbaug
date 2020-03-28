@@ -1,1 +1,1 @@
-from .augmentations import *
+from .augmentations import *  # noqa
