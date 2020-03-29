@@ -1,5 +1,3 @@
-from unittest.mock import MagicMock, call
-
 from imgaug.augmentables.bbs import (
     BoundingBox,
     BoundingBoxesOnImage,
@@ -7,8 +5,13 @@ from imgaug.augmentables.bbs import (
 import numpy as np
 import pytest
 
-from bbaug.augmentations import augmentations
 from bbaug.policies import policies
+
+
+def test_list_policies():
+    res = policies.list_policies()
+    assert len(res) == 1
+    assert 'policies_v3' in res
 
 
 def test_policies_v3():
