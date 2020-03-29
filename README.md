@@ -3,7 +3,7 @@
 
 # BBAug
 
-BBAug is a Python package for the implementations of Google’s Brain Team’s bounding box augmentations policies. 
+BBAug is a Python package for the implementation of Google’s Brain Team’s bounding box augmentation policies. 
 The package is aimed for PyTorch users who wish to use these policies in the augmentation of bounding boxes during the 
 training of a model.
 
@@ -46,17 +46,17 @@ A augmentation is define by 3 attributes:
 - **Probability**: Probability of augmentation being applied
 - **Magnitude**: The degree of the augmentation (values are integers between 0 and 10)
 
-A policy is a collection of augmentations: e.g.
+A `single policy` is a collection of augmentations: e.g.
 ```python
 single_policy = [('translation', 0.5, 1), ('rotation', 1.0, 9)]
 ```
 In the above example we have two augmentations in a single policy. The `translation` policy has a 
 probability of 0.5 and a magnitude of 1, whereas the `rotation` policy has a probability of 1.0 and a 
 magnitude of 9. The magnitudes do not directly translate into the augmentation policy i.e. a magnitude of 9
-does not mean a 9 degree rotation. Instead, scaling is applied to the magnitude to determine the value passed
+does not mean a 9 degrees rotation. Instead, scaling is applied to the magnitude to determine the value passed
 to the augmentation method. The scaling varies depending on the augmentation used.
 
-A policy is a set of single policies:
+A `policy` is a set of single policies:
 ```python
 policies = [
     [('translation', 0.5, 1), ('rotation', 1.0, 9)],
@@ -64,7 +64,7 @@ policies = [
     [('rotation', 0.5, 1), ('solarize', 1.0, 9)]
 ]
 ``` 
-During training a random policy is selected from the list of policies and applied to the image and because
+During training, a random policy is selected from the list of policies and applied to the image and because
 each augmentation has it's own probability this adds a degree of stochasticity to training. 
 
 ### Policies
@@ -94,11 +94,11 @@ print(policies_v3()) # Will list all the polices in version 3
  TODO
 
 #### Policy Container
-To help integrate the policies into trained there is a `PolicyContainer` class available in the `policies`
+To help integrate the policies into training a `PolicyContainer` class available in the `policies`
 module. The container accepts the following inputs:
 - **policy_set** (required): The policy set to use
-- **name_to_augmentation** (optional, default: augmentations.NAME_TO_AUGMENTATION): The dictionary mapping the augmentation name to the method referece
-- **return_yolo** (optional, default: False): Return the bounding boxes in YOLO format otherwise `[x_min, y_min, x_man, y_max]` in pixels is returned 
+- **name_to_augmentation** (optional, default: `augmentations.NAME_TO_AUGMENTATION`): The dictionary mapping the augmentation name to the augmentation method
+- **return_yolo** (optional, default: `False`): Return the bounding boxes in YOLO format otherwise `[x_min, y_min, x_man, y_max]` in pixels is returned 
 
 Usage of the policy container:
 ```python
