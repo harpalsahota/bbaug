@@ -30,6 +30,7 @@ POLICY_TUPLE = namedtuple('policy', ['name', 'probability', 'magnitude'])
 __all__ = [
     'POLICY_TUPLE_TYPE',
     'POLICY_TUPLE',
+    'list_policies',
     'policies_v3',
     'PolicyContainer',
 ]
@@ -107,6 +108,16 @@ def policies_v3() -> List[List[POLICY_TUPLE_TYPE]]:
     return policy
 
 
+def list_policies() -> List:
+    """
+    Returns a list of policies available
+
+    :rtype: List
+    :return: List of available policies
+    """
+    return [policies_v3.__name__]
+
+
 class PolicyContainer:
     """
     Policy container for all the policies available during augmentation
@@ -114,7 +125,7 @@ class PolicyContainer:
 
     def __init__(
             self,
-            policy_list: List[List[POLICY_TUPLE_TYPE]],
+            policy_set: List[List[POLICY_TUPLE_TYPE]],
             name_to_augmentation: Dict[str, Callable] = NAME_TO_AUGMENTATION,
             return_yolo: bool = False
     ):
@@ -130,7 +141,7 @@ class PolicyContainer:
         :param return_yolo: Flag for returning the bounding boxes in YOLO
                             format
         """
-        self.policies = policy_list
+        self.policies = policy_set
         self.augmentations = name_to_augmentation
         self.return_yolo = return_yolo
 
