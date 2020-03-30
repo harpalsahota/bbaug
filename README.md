@@ -42,8 +42,20 @@ Installation is best done via pip:
 ### Policy Version 2 and Version 3 Implementation
 #### Version 2
 #### Version 3
+![image](assets/images/policy_v3/v3_1.png)
+![image](assets/images/policy_v3/v3_2.png)
 ![image](assets/images/policy_v3/v3_3.png)
-
+![image](assets/images/policy_v3/v3_4.png)
+![image](assets/images/policy_v3/v3_5.png)
+![image](assets/images/policy_v3/v3_6.png)
+![image](assets/images/policy_v3/v3_7.png)
+![image](assets/images/policy_v3/v3_8.png)
+![image](assets/images/policy_v3/v3_9.png)
+![image](assets/images/policy_v3/v3_10.png)
+![image](assets/images/policy_v3/v3_11.png)
+![image](assets/images/policy_v3/v3_12.png)
+![image](assets/images/policy_v3/v3_13.png)
+![image](assets/images/policy_v3/v3_14.png)
 ## Description and Usage
 
 For detailed description on usage please refer to the Python notebooks provided in the `notebooks` folder.
