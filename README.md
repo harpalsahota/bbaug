@@ -5,7 +5,7 @@
 
 BBAug is a Python package for the implementation of Google’s Brain Team’s bounding box augmentation policies. 
 The package is aimed for PyTorch users who wish to use these policies in the augmentation of bounding boxes during the 
-training of a model.
+training of a model. This package builds on top of the excellent image augmentations package [imgaug](https://github.com/aleju/imgaug).
 
 **References**
 - [Paper](https://arxiv.org/abs/1906.11172)
@@ -16,9 +16,11 @@ training of a model.
 - [x] Implementation of version 3 of policies
 - [x] Custom policies
 - [x] Custom augmentations
-- [x] Bounding boxes are removed if they fall outside of the image
-- [x] Boudning boxes are clipped if they are partially outside the image
+- [x] Bounding boxes are removed if they fall outside of the image*
+- [x] Boudning boxes are clipped if they are partially outside the image*
 - [x] Augmentations that imply direction e.g. rotation is randomly determined
+
+*Doest not happen for bounding box specific augmentations
 
 ## To Do
 - [ ] Implementation of version 2 of policies
@@ -36,6 +38,11 @@ Installation is best done via pip:
 - Torchvision
 
 ## Comparisons to Tensorflow Implementation
+
+### Policy Version 2 and Version 3 Implementation
+#### Version 2
+#### Version 3
+![image](assets/images/policy_v3/v3_3.png)
 
 ## Description and Usage
 
@@ -115,7 +122,7 @@ random_policy = policy_container.select_random_policy()
 
 # Apply the augmentation. Returns the augmented image and bounding boxes.
 # Image is a numpy array of the image
-# Bounding boxes is a list of list of bounding boxes in pixels.
+# Bounding boxes is a list of list of bounding boxes in pixels (int).
 # e.g. [[x_min, y_min, x_man, y_max], [x_min, y_min, x_man, y_max]]
 img_aug, bbs_aug = policy_container.apply_augmentation(random_policy, image, bounding_boxes)
 ```
