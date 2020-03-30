@@ -14,6 +14,8 @@ import matplotlib.pyplot as plt
 from bbaug.augmentations import NAME_TO_AUGMENTATION
 from bbaug.policies import POLICY_TUPLE_TYPE
 
+__all__ = ['visualise_policy']
+
 
 def _aug_to_function(augmentation: POLICY_TUPLE_TYPE):
     """
