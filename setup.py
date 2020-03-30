@@ -18,6 +18,7 @@ setup(
         'bbaug',
         'bbaug.augmentations',
         'bbaug.policies',
+        'bbaug.visuals',
     ],
     python_requires='>=3.5',
     install_requires=[
