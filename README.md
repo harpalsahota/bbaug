@@ -42,6 +42,7 @@ Installation is best done via pip:
 ### Policy Version 2 and Version 3 Implementation
 #### Version 2
 #### Version 3
+![image](assets/images/policy_v3/v3_0.png)
 ![image](assets/images/policy_v3/v3_1.png)
 ![image](assets/images/policy_v3/v3_2.png)
 ![image](assets/images/policy_v3/v3_3.png)
