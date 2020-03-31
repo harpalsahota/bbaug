@@ -12,7 +12,9 @@ from bbaug.exceptions import InvalidMagnitude
 _MAX_MAGNITUDE = 10.0
 BBOX_TRANSLATION = 120
 CUTOUT_BBOX = 50
+CUTOUT_MAX_PAD_FRACTION = 0.75
 CUTOUT_CONST = 100
+TRANSLATION_CONST = 250
 
 __all__ = [
     'negate',
@@ -25,12 +27,12 @@ __all__ = [
     'cutout_bbox',
     'equalise',
     'posterize',
-    'rotate_bbox',
+    'rotate',
     'sharpness',
     'shear_y_bbox',
     'solarize_add',
-    'translate_x_bbox',
-    'translate_y_bbox',
+    'translate_x',
+    'translate_y',
 ]
 
 
@@ -110,7 +112,7 @@ def _shear_mag_to_arg(magnitude: int) -> float:
 
 @negate
 @validate_magnitude
-def _translate_bbox_mag_to_arg(magnitude: int) -> int:
+def _translate_mag_to_arg(magnitude: int) -> int:
     """
     Determine translation magnitude in pixels
 
@@ -119,7 +121,7 @@ def _translate_bbox_mag_to_arg(magnitude: int) -> int:
     :rtype: int
     :return: Translation in pixels
     """
-    return int((magnitude / _MAX_MAGNITUDE) * BBOX_TRANSLATION)
+    return int((magnitude / _MAX_MAGNITUDE) * TRANSLATION_CONST)
 
 
 def auto_contrast(_: int) -> iaa.pillike.Autocontrast:
@@ -178,6 +180,8 @@ def cutout(magnitude: int, **kwargs) -> iaa.Cutout:
     """
     Apply cutout to an image
 
+    Tensorflow Policy Equivalent: cutout
+
     The cutout value in the policies is at a pixel level. The imgaug cutout
     augmentation method requires the cutout to be a percentage of the image.
     Passing the image height and width as kwargs will scale the cutout to
@@ -204,6 +208,8 @@ def cutout(magnitude: int, **kwargs) -> iaa.Cutout:
 def cutout_bbox(magnitude: int, **kwargs) -> iaa.BlendAlphaBoundingBoxes:
     """
     Apply cutout only to the bounding box region
+
+    Tensorflow Policy Equivalent: bbox_cutout
 
     The cutout value in the policies is at a pixel level. The imgaug cutout
     augmentation method requires the cutout to be a percentage of the image.
@@ -260,7 +266,7 @@ def posterize(magnitude: int):
     return iaa.color.Posterize(nb_bits=nbits)
 
 
-def rotate_bbox(magnitude: int) -> iaa.BlendAlphaBoundingBoxes:
+def rotate(magnitude: int) -> iaa.BlendAlphaBoundingBoxes:
     """
     Rotate the bounding box in an image
 
@@ -270,10 +276,11 @@ def rotate_bbox(magnitude: int) -> iaa.BlendAlphaBoundingBoxes:
     :return: Method to apply rotation
     """
     level = _rotate_mag_to_arg(magnitude)
-    return iaa.BlendAlphaBoundingBoxes(
-        None,
-        foreground=iaa.Rotate(level)
-    )
+    return iaa.Rotate(level)
+    # return iaa.BlendAlphaBoundingBoxes(
+    #     None,
+    #     foreground=iaa.Rotate(level)
+    # )
 
 
 def sharpness(magnitude: int) -> iaa.pillike.EnhanceSharpness:
@@ -323,36 +330,42 @@ def solarize_add(magnitude: int):
     return aug
 
 
-def translate_x_bbox(magnitude: int) -> iaa.BlendAlphaBoundingBoxes:
+def translate_x(magnitude: int) -> iaa.BlendAlphaBoundingBoxes:
     """
     Translate bounding boxes only on the x-axis
+
+    Tensorflow Policy Equivalent: translate_x
 
     :type magnitude: int
     :param magnitude: Magnitude of translation
     :rtype: iaa.BlendAlphaBoundingBoxes
     :return: Method to apply x translation to bounding boxes
     """
-    level = _translate_bbox_mag_to_arg(magnitude)
-    return iaa.BlendAlphaBoundingBoxes(
-        None,
-        foreground=iaa.geometric.TranslateX(px=level),
-    )
+    level = _translate_mag_to_arg(magnitude)
+    return iaa.geometric.TranslateX(px=level),
+    # return iaa.BlendAlphaBoundingBoxes(
+    #     None,
+    #     foreground=iaa.geometric.TranslateX(px=level),
+    # )
 
 
-def translate_y_bbox(magnitude: int):
+def translate_y(magnitude: int):
     """
     Translate bounding boxes only on the y-axis
+
+    Tensorflow Policy Equivalent: translate_y
 
     :type magnitude: int
     :param magnitude: magnitude of translation
     :rtype: iaa.BlendAlphaBoundingBoxes
     :return: Method to apply y translation to bounding boxes
     """
-    level = _translate_bbox_mag_to_arg(magnitude)
-    return iaa.BlendAlphaBoundingBoxes(
-        None,
-        foreground=iaa.geometric.TranslateY(px=level)
-    )
+    level = _translate_mag_to_arg(magnitude)
+    return iaa.geometric.TranslateY(px=level)
+    # return iaa.BlendAlphaBoundingBoxes(
+    #     None,
+    #     foreground=iaa.geometric.TranslateY(px=level)
+    # )
 
 
 NAME_TO_AUGMENTATION = {
@@ -364,10 +377,10 @@ NAME_TO_AUGMENTATION = {
     'Contrast': contrast,
     'Equalize': equalise,
     'Posterize': posterize,
-    'Rotate_BBox': rotate_bbox,
+    'Rotate': rotate,
     'Sharpness': sharpness,
     'ShearY_BBox': shear_y_bbox,
     'SolarizeAdd': solarize_add,
-    'TranslateX_BBox': translate_x_bbox,
-    'TranslateY_BBox': translate_y_bbox,
+    'Translate_X': translate_x,
+    'Translate_Y': translate_y,
 }
