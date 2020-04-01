@@ -80,16 +80,16 @@ def test__shear_mag_to_arg(mocker):
     assert res == pytest.approx(0.21)
 
 
-def test__translate_bbox_mag_to_arg(mocker):
+def test__translate_mag_to_arg(mocker):
 
     numpy_random_mock = mocker.patch('bbaug.augmentations.augmentations.np.random.random')
     numpy_random_mock.return_value = 0.5
 
-    res = augmentations._translate_bbox_mag_to_arg(8)
-    assert res == 96
+    res = augmentations._translate_mag_to_arg(8)
+    assert res == 200
 
-    res = augmentations._translate_bbox_mag_to_arg(2)
-    assert res == 24
+    res = augmentations._translate_mag_to_arg(2)
+    assert res == 50
 
 
 def test_auto_contrast(mocker):
@@ -154,12 +154,12 @@ def test_cutout(mocker):
     assert {'size': pytest.approx((0.1, 0.1))} == kwargs
 
 
-def test_cutout_bbox(mocker):
+def test_cutout_fraction(mocker):
 
     aug_mock = mocker.patch('bbaug.augmentations.augmentations.iaa.BlendAlphaBoundingBoxes')
     aug_mock_cutout = mocker.patch('bbaug.augmentations.augmentations.iaa.Cutout')
 
-    augmentations.cutout_bbox(7)
+    augmentations.cutout_fraction(7)
     assert aug_mock.called
     args, kwargs = aug_mock.call_args_list[0]
     assert tuple([None]) == args
@@ -168,7 +168,7 @@ def test_cutout_bbox(mocker):
 
     aug_mock.reset_mock()
     aug_mock_cutout.reset_mock()
-    augmentations.cutout_bbox(9, height=1000, width=1000)
+    augmentations.cutout_fraction(9, height=1000, width=1000)
     args, kwargs = aug_mock.call_args_list[0]
     assert tuple([None]) == args
     assert 'foreground' in kwargs
@@ -204,26 +204,26 @@ def test_posterize(mocker):
     assert tuple() == args
 
 
-def test_rotate_bbox(mocker):
+def test_rotate(mocker):
 
     numpy_random_mock = mocker.patch('bbaug.augmentations.augmentations.np.random.random')
     numpy_random_mock.return_value = 0.5
-    aug_mock = mocker.patch('bbaug.augmentations.augmentations.iaa.BlendAlphaBoundingBoxes')
+    # aug_mock = mocker.patch('bbaug.augmentations.augmentations.iaa.BlendAlphaBoundingBoxes')
     aug_mock_rotate = mocker.patch('bbaug.augmentations.augmentations.iaa.Rotate')
 
-    augmentations.rotate_bbox(8)
-    assert aug_mock.called
-    args, kwargs = aug_mock.call_args_list[0]
-    assert tuple([None]) == args
-    assert 'foreground' in kwargs
+    augmentations.rotate(8)
+    assert aug_mock_rotate.called
+    # args, kwargs = aug_mock_rotate.call_args_list[0]
+    # assert tuple([None]) == args
+    # assert 'foreground' in kwargs
     aug_mock_rotate.assert_called_with(pytest.approx(24.0))
 
-    aug_mock.reset_mock()
+    # aug_mock.reset_mock()
     aug_mock_rotate.reset_mock()
-    augmentations.rotate_bbox(10)
-    args, kwargs = aug_mock.call_args_list[0]
-    assert tuple([None]) == args
-    assert 'foreground' in kwargs
+    augmentations.rotate(10)
+    # args, kwargs = aug_mock.call_args_list[0]
+    # assert tuple([None]) == args
+    # assert 'foreground' in kwargs
     aug_mock_rotate.assert_called_with(pytest.approx(30.0))
 
 
