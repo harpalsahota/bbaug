@@ -268,6 +268,8 @@ def fliplr_boxes(_: int) -> iaa.BlendAlphaBoundingBoxes:
     """
     Flip only the bounding boxes horizontally
 
+    Tensorflow Policy Equivalent: flip_only_bboxes
+
     :type _: int
     :param _: Unused, kept to fit within the ecosystem
     :rtype: iaa.AllChannelsHistogramEqualization
@@ -310,10 +312,6 @@ def rotate(magnitude: int) -> iaa.BlendAlphaBoundingBoxes:
     """
     level = _rotate_mag_to_arg(magnitude)
     return iaa.Rotate(level)
-    # return iaa.BlendAlphaBoundingBoxes(
-    #     None,
-    #     foreground=iaa.Rotate(level)
-    # )
 
 
 def sharpness(magnitude: int) -> iaa.pillike.EnhanceSharpness:
@@ -335,7 +333,7 @@ def shear_x(magnitude: int) -> iaa.ShearY:
     """
     Apply x shear to the image and boxes
 
-    Tensorflow Policy Equivalent: shear_y
+    Tensorflow Policy Equivalent: shear_x
 
     :type magnitude: int
     :param magnitude: magnitude of y shear
@@ -424,7 +422,7 @@ def translate_x(magnitude: int) ->  iaa.geometric.TranslateX:
     """
     Translate bounding boxes only on the x-axis
 
-    Tensorflow Policy Equivalent: translate_x
+    Tensorflow Policy Equivalent: translate_x_only_bboxes
 
     :type magnitude: int
     :param magnitude: Magnitude of translation
@@ -457,7 +455,7 @@ def translate_y(magnitude: int) ->iaa.geometric.TranslateY:
     """
     Translate bounding boxes only on the y-axis
 
-    Tensorflow Policy Equivalent: translate_y
+    Tensorflow Policy Equivalent: translate_y_only_bboxes
 
     :type magnitude: int
     :param magnitude: magnitude of translation
