@@ -24,15 +24,19 @@ __all__ = [
     'colour',
     'contrast',
     'cutout',
-    'cutout_bbox',
+    'cutout_fraction',
     'equalise',
+    'fliplr_boxes',
     'posterize',
     'rotate',
     'sharpness',
-    'shear_y_bbox',
+    'shear_x',
+    'shear_y',
     'solarize_add',
     'translate_x',
+    'translate_x_bbox',
     'translate_y',
+    'translate_y_bbox',
 ]
 
 
@@ -112,7 +116,7 @@ def _shear_mag_to_arg(magnitude: int) -> float:
 
 @negate
 @validate_magnitude
-def _translate_mag_to_arg(magnitude: int) -> int:
+def _translate_mag_to_arg(magnitude: int, bbox=False) -> int:
     """
     Determine translation magnitude in pixels
 
@@ -121,12 +125,16 @@ def _translate_mag_to_arg(magnitude: int) -> int:
     :rtype: int
     :return: Translation in pixels
     """
+    if bbox:
+        return int((magnitude / _MAX_MAGNITUDE) * BBOX_TRANSLATION)
     return int((magnitude / _MAX_MAGNITUDE) * TRANSLATION_CONST)
 
 
 def auto_contrast(_: int) -> iaa.pillike.Autocontrast:
     """
     Apply auto contrast to image
+
+    Tensorflow Policy Equivalent: autocontrast
 
     :type _: int
     :param _: unused magnitude
@@ -139,6 +147,8 @@ def auto_contrast(_: int) -> iaa.pillike.Autocontrast:
 def brightness(magnitude: int) -> iaa.pillike.EnhanceBrightness:
     """
     Adjust the brightness of an image
+
+    Tensorflow Policy Equivalent: brightness
 
     :type magnitude: int
     :param magnitude: Magnitude of brightness change
@@ -153,6 +163,8 @@ def colour(magnitude: int) -> iaa.pillike.EnhanceColor:
     """
     Adjust the brightness of an image
 
+    Tensorflow Policy Equivalent: color
+
     :type magnitude: int
     :param magnitude: Magnitude of colour change
     :rtype: iaa.pillike.EnhanceColor
@@ -165,6 +177,8 @@ def colour(magnitude: int) -> iaa.pillike.EnhanceColor:
 def contrast(magnitude: int) -> iaa.GammaContrast:
     """
     Adjust the contrast of an image
+
+    Tensorflow Policy Equivalent: contrast
 
     :type magnitude: int
     :param magnitude: magnitude of contrast change
@@ -205,12 +219,13 @@ def cutout(magnitude: int, **kwargs) -> iaa.Cutout:
 
 
 @validate_magnitude
-def cutout_bbox(magnitude: int, **kwargs) -> iaa.BlendAlphaBoundingBoxes:
+def cutout_fraction(magnitude: int, **kwargs) -> iaa.BlendAlphaBoundingBoxes:
     """
-    Apply cutout only to the bounding box region
+    Applies cutout to the image according to bbox information.
 
     Tensorflow Policy Equivalent: bbox_cutout
 
+    The cutout size is determined as a fraction of the bounding box size.
     The cutout value in the policies is at a pixel level. The imgaug cutout
     augmentation method requires the cutout to be a percentage of the image.
     Passing the image height and width as kwargs will scale the cutout to the
@@ -224,23 +239,22 @@ def cutout_bbox(magnitude: int, **kwargs) -> iaa.BlendAlphaBoundingBoxes:
     :rtype: iaa.Cutout
     :return: Method to apply cutout to bounding boxes
     """
-    level = int((magnitude / _MAX_MAGNITUDE) * CUTOUT_BBOX)
+    level = (magnitude / _MAX_MAGNITUDE) * CUTOUT_MAX_PAD_FRACTION
     cutout_args = {}
-    if 'height' in kwargs and 'width' in kwargs:
+    if all(i in kwargs for i in ['height', 'width', 'height_bbox', 'width_bbox']):
         size = tuple([
-            (level / kwargs['height']) * 2,
-            (level / kwargs['width']) * 2
+            (level * kwargs['height_bbox']) / kwargs['height'],
+            (level * kwargs['width_bbox']) / kwargs['width']
         ])
         cutout_args['size'] = size
-    return iaa.BlendAlphaBoundingBoxes(
-        None,
-        foreground=iaa.Cutout(**cutout_args)
-    )
+    return iaa.Cutout(**cutout_args)
 
 
 def equalise(_: int) -> iaa.AllChannelsHistogramEqualization:
     """
     Apply auto histogram equalisation to the image
+
+    Tensorflow Policy Equivalent: equalize
 
     :type _: int
     :param _: unused magnitude
@@ -250,10 +264,27 @@ def equalise(_: int) -> iaa.AllChannelsHistogramEqualization:
     return iaa.AllChannelsHistogramEqualization()
 
 
+def fliplr_boxes(_: int) -> iaa.BlendAlphaBoundingBoxes:
+    """
+    Flip only the bounding boxes horizontally
+
+    :type _: int
+    :param _: Unused, kept to fit within the ecosystem
+    :rtype: iaa.AllChannelsHistogramEqualization
+    :return: Method to flip bounding boxes horizontally
+    """
+    return iaa.BlendAlphaBoundingBoxes(
+        None,
+        foreground=iaa.Fliplr(1.0)
+    )
+
+
 @validate_magnitude
 def posterize(magnitude: int):
     """
     Posterize image
+
+    Tensorflow Policy Equivalent: posterize
 
     :type magnitude: int
     :param magnitude: magnitude of posterize
@@ -269,6 +300,8 @@ def posterize(magnitude: int):
 def rotate(magnitude: int) -> iaa.BlendAlphaBoundingBoxes:
     """
     Rotate the bounding box in an image
+
+    Tensorflow Policy Equivalent: rotate_with_bboxes
 
     :type magnitude: int
     :param magnitude: magnitude of rotation
@@ -287,6 +320,8 @@ def sharpness(magnitude: int) -> iaa.pillike.EnhanceSharpness:
     """
     Add sharpness to the image
 
+    Tensorflow Policy Equivalent: sharpness
+
     :type magnitude: int
     :param magnitude: magnitude of sharpness
     :rtype: iaa.pillike.EnhanceSharpness
@@ -296,9 +331,44 @@ def sharpness(magnitude: int) -> iaa.pillike.EnhanceSharpness:
     return iaa.pillike.EnhanceSharpness(level)
 
 
-def shear_y_bbox(magnitude: int) -> iaa.ShearY:
+def shear_x(magnitude: int) -> iaa.ShearY:
     """
-    Apply y shear only to the bounding box
+    Apply x shear to the image and boxes
+
+    Tensorflow Policy Equivalent: shear_y
+
+    :type magnitude: int
+    :param magnitude: magnitude of y shear
+    :rtype: iaa.ShearY
+    :return: Method to y shear bounding boxes
+    """
+    level = _shear_mag_to_arg(magnitude)
+    return iaa.ShearX(level)
+
+
+def shear_x_bbox(magnitude: int) -> iaa.BlendAlphaBoundingBoxes:
+    """
+    Apply x shear only to bboxes
+
+    Tensorflow Policy Equivalent: shear_x_only_bboxes
+
+    :type magnitude: int
+    :param magnitude: magnitude of x shear
+    :rtype: iaa.BlendAlphaBoundingBoxes
+    :return: Method to x shear bounding boxes
+    """
+    level = _shear_mag_to_arg(magnitude)
+    return iaa.BlendAlphaBoundingBoxes(
+        None,
+        foreground=iaa.ShearX(level),
+    )
+
+
+def shear_y(magnitude: int) -> iaa.ShearY:
+    """
+    Apply y shear image and boxes
+
+    Tensorflow Policy Equivalent: shear_y
 
     :type magnitude: int
     :param magnitude: magnitude of y shear
@@ -309,10 +379,30 @@ def shear_y_bbox(magnitude: int) -> iaa.ShearY:
     return iaa.ShearY(level)
 
 
+def shear_y_bbox(magnitude: int) -> iaa.BlendAlphaBoundingBoxes:
+    """
+    Apply y shear only to bboxes
+
+    Tensorflow Policy Equivalent: shear_y_only_bboxes
+
+    :type magnitude: int
+    :param magnitude: magnitude of y shear
+    :rtype: iaa.BlendAlphaBoundingBoxes
+    :return: Method to y shear bounding boxes
+    """
+    level = _shear_mag_to_arg(magnitude)
+    return iaa.BlendAlphaBoundingBoxes(
+        None,
+        foreground=iaa.ShearY(level),
+    )
+
+
 @validate_magnitude
 def solarize_add(magnitude: int):
     """
     Add solarize to an image
+
+    Tensorflow Policy Equivalent: solarize_add
 
     :type magnitude:int
     :param magnitude: Magnitude of solarization
@@ -330,7 +420,7 @@ def solarize_add(magnitude: int):
     return aug
 
 
-def translate_x(magnitude: int) -> iaa.BlendAlphaBoundingBoxes:
+def translate_x(magnitude: int) ->  iaa.geometric.TranslateX:
     """
     Translate bounding boxes only on the x-axis
 
@@ -342,14 +432,28 @@ def translate_x(magnitude: int) -> iaa.BlendAlphaBoundingBoxes:
     :return: Method to apply x translation to bounding boxes
     """
     level = _translate_mag_to_arg(magnitude)
-    return iaa.geometric.TranslateX(px=level),
-    # return iaa.BlendAlphaBoundingBoxes(
-    #     None,
-    #     foreground=iaa.geometric.TranslateX(px=level),
-    # )
+    return iaa.geometric.TranslateX(px=level)
 
 
-def translate_y(magnitude: int):
+def translate_x_bbox(magnitude: int) -> iaa.BlendAlphaBoundingBoxes:
+    """
+    Translate bounding boxes only on the x-axis
+
+    Tensorflow Policy Equivalent: translate_x
+
+    :type magnitude: int
+    :param magnitude: Magnitude of translation
+    :rtype: iaa.BlendAlphaBoundingBoxes
+    :return: Method to apply x translation to bounding boxes
+    """
+    level = _translate_mag_to_arg(magnitude, bbox=True)
+    return iaa.BlendAlphaBoundingBoxes(
+        None,
+        foreground=iaa.geometric.TranslateX(px=level),
+    )
+
+
+def translate_y(magnitude: int) ->iaa.geometric.TranslateY:
     """
     Translate bounding boxes only on the y-axis
 
@@ -362,25 +466,45 @@ def translate_y(magnitude: int):
     """
     level = _translate_mag_to_arg(magnitude)
     return iaa.geometric.TranslateY(px=level)
-    # return iaa.BlendAlphaBoundingBoxes(
-    #     None,
-    #     foreground=iaa.geometric.TranslateY(px=level)
-    # )
+
+
+def translate_y_bbox(magnitude: int) ->iaa.BlendAlphaBoundingBoxes:
+    """
+    Translate bounding boxes only on the y-axis
+
+    Tensorflow Policy Equivalent: translate_y
+
+    :type magnitude: int
+    :param magnitude: magnitude of translation
+    :rtype: iaa.BlendAlphaBoundingBoxes
+    :return: Method to apply y translation to bounding boxes
+    """
+    level = _translate_mag_to_arg(magnitude, bbox=True)
+    return iaa.BlendAlphaBoundingBoxes(
+        None,
+        foreground=iaa.geometric.TranslateY(px=level)
+    )
 
 
 NAME_TO_AUGMENTATION = {
-    'AutoContrast': auto_contrast,
-    'BBox_Cutout': cutout_bbox,
+    'Auto_Contrast': auto_contrast,
+    'Cutout_Fraction': cutout_fraction,
     'Brightness': brightness,
     'Cutout': cutout,
     'Color': colour,
     'Contrast': contrast,
     'Equalize': equalise,
+    'Fliplr_BBoxes': fliplr_boxes,
     'Posterize': posterize,
     'Rotate': rotate,
     'Sharpness': sharpness,
-    'ShearY_BBox': shear_y_bbox,
-    'SolarizeAdd': solarize_add,
+    'Shear_X': shear_x,
+    'Shear_X_BBox': shear_x_bbox,
+    'Shear_Y': shear_y,
+    'Shear_Y_BBox': shear_y_bbox,
+    'Solarize_Add': solarize_add,
     'Translate_X': translate_x,
+    'Translate_X_BBoxes': translate_x_bbox,
     'Translate_Y': translate_y,
+    'Translate_Y_BBoxes': translate_y_bbox,
 }
