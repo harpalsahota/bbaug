@@ -31,9 +31,43 @@ __all__ = [
     'POLICY_TUPLE_TYPE',
     'POLICY_TUPLE',
     'list_policies',
+    'policies_v0',
+    'policies_v1',
+    'policies_v2',
     'policies_v3',
     'PolicyContainer',
 ]
+
+
+def policies_v0():
+    """
+    Version of the policies used in the paper
+​
+    :rtype: List[List[POLICY_TUPLE_TYPE]]
+    :return: List of policies
+    """
+    policy = [
+      [
+          POLICY_TUPLE('Translate_X', 0.6, 4),
+          POLICY_TUPLE('Equalize', 0.8, 10)
+      ],
+      [
+          POLICY_TUPLE('Translate_Y_BBoxes', 0.2, 2),
+          POLICY_TUPLE('Cutout', 0.8, 8)
+      ],
+      [
+          POLICY_TUPLE('Sharpness', 0.0, 8),
+          POLICY_TUPLE('Shear_X', 0.4, 0)
+      ],
+      [
+          POLICY_TUPLE('Shear_Y', 1.0, 2),
+          POLICY_TUPLE('Translate_Y_BBoxes', 0.6, 6)
+      ],
+      [
+          POLICY_TUPLE('Rotate', 0.6, 10),
+          POLICY_TUPLE('Color', 1.0, 6)],
+    ]
+    return policy
 
 
 def policies_v1() -> List[List[POLICY_TUPLE_TYPE]]:
@@ -45,42 +79,42 @@ def policies_v1() -> List[List[POLICY_TUPLE_TYPE]]:
     """
     policy = [
         [
-            POLICY_TUPLE('TranslateX_BBox', 0.6, 4),
+            POLICY_TUPLE('Translate_X', 0.6, 4),
             POLICY_TUPLE('Equalize', 0.8, 10)
         ],
         [
-            POLICY_TUPLE('TranslateY_Only_BBoxes', 0.2, 2),
+            POLICY_TUPLE('Translate_Y_BBoxes', 0.2, 2),
             POLICY_TUPLE('Cutout', 0.8, 8)],
         [
             POLICY_TUPLE('Sharpness', 0.0, 8),
-            POLICY_TUPLE('ShearX_BBox', 0.4, 0)
+            POLICY_TUPLE('Shear_X', 0.4, 0)
         ],
         [
-            POLICY_TUPLE('ShearY_BBox', 1.0, 2),
-            POLICY_TUPLE('TranslateY_Only_BBoxes', 0.6, 6)
+            POLICY_TUPLE('Shear_Y', 1.0, 2),
+            POLICY_TUPLE('Translate_Y_BBoxes', 0.6, 6)
         ],
         [
-            POLICY_TUPLE('Rotate_BBox', 0.6, 10),
+            POLICY_TUPLE('Rotate', 0.6, 10),
             POLICY_TUPLE('Color', 1.0, 6)
         ],
         [
             POLICY_TUPLE('Color', 0.0, 0),
-            POLICY_TUPLE('ShearX_Only_BBoxes', 0.8, 4)
+            POLICY_TUPLE('Shear_X_BBox', 0.8, 4)
         ],
         [
-            POLICY_TUPLE('ShearY_Only_BBoxes', 0.8, 2),
-            POLICY_TUPLE('Flip_Only_BBoxes', 0.0, 10)
+            POLICY_TUPLE('Shear_Y_BBox', 0.8, 2),
+            POLICY_TUPLE('Fliplr_BBoxes', 0.0, 10)
         ],
         [
             POLICY_TUPLE('Equalize', 0.6, 10),
-            POLICY_TUPLE('TranslateX_BBox', 0.2, 2)
+            POLICY_TUPLE('Translate_X', 0.2, 2)
         ],
         [
             POLICY_TUPLE('Color', 1.0, 10),
-            POLICY_TUPLE('TranslateY_Only_BBoxes', 0.4, 6)
+            POLICY_TUPLE('Translate_Y_BBoxes', 0.4, 6)
         ],
         [
-            POLICY_TUPLE('Rotate_BBox', 0.8, 10),
+            POLICY_TUPLE('Rotate', 0.8, 10),
             POLICY_TUPLE('Contrast', 0.0, 10)
         ],
         [
@@ -93,41 +127,41 @@ def policies_v1() -> List[List[POLICY_TUPLE_TYPE]]:
         ],
         [
             POLICY_TUPLE('Cutout_Only_BBoxes', 0.4, 6),
-            POLICY_TUPLE('TranslateY_Only_BBoxes', 0.8, 2)
+            POLICY_TUPLE('Translate_Y_BBoxes', 0.8, 2)
         ],
         [
             POLICY_TUPLE('Color', 0.2, 8),
-            POLICY_TUPLE('Rotate_BBox', 0.8, 10)
+            POLICY_TUPLE('Rotate', 0.8, 10)
         ],
         [
             POLICY_TUPLE('Sharpness', 0.4, 4),
-            POLICY_TUPLE('TranslateY_Only_BBoxes', 0.0, 4)
+            POLICY_TUPLE('Translate_Y_BBoxes', 0.0, 4)
         ],
         [
             POLICY_TUPLE('Sharpness', 1.0, 4),
-            POLICY_TUPLE('SolarizeAdd', 0.4, 4)
+            POLICY_TUPLE('Solarize_Add', 0.4, 4)
         ],
         [
-            POLICY_TUPLE('Rotate_BBox', 1.0, 8),
+            POLICY_TUPLE('Rotate', 1.0, 8),
             POLICY_TUPLE('Sharpness', 0.2, 8)
         ],
         [
-            POLICY_TUPLE('ShearY_BBox', 0.6, 10),
-            POLICY_TUPLE('Equalize_Only_BBoxes', 0.6, 8)
+            POLICY_TUPLE('Shear_Y', 0.6, 10),
+            POLICY_TUPLE('Translate_Y_BBoxes', 0.6, 8)
         ],
         [
-            POLICY_TUPLE('ShearX_BBox', 0.2, 6),
-            POLICY_TUPLE('TranslateY_Only_BBoxes', 0.2, 10)
+            POLICY_TUPLE('Shear_X', 0.2, 6),
+            POLICY_TUPLE('Translate_Y_BBoxes', 0.2, 10)
         ],
         [
-            POLICY_TUPLE('SolarizeAdd', 0.6, 8),
+            POLICY_TUPLE('Solarize_Add', 0.6, 8),
             POLICY_TUPLE('Brightness', 0.8, 10)
         ],
     ]
     return policy
 
 
-def policy_v2() -> List[List[POLICY_TUPLE_TYPE]]:
+def policies_v2() -> List[List[POLICY_TUPLE_TYPE]]:
     """
     Version 1 of augmentation policies
     ​
@@ -141,23 +175,23 @@ def policy_v2() -> List[List[POLICY_TUPLE_TYPE]]:
           POLICY_TUPLE('Sharpness', 0.4, 8)
       ],
       [
-          POLICY_TUPLE('Rotate_BBox', 0.4, 8),
+          POLICY_TUPLE('Rotate', 0.4, 8),
           POLICY_TUPLE('Sharpness', 0.4, 2),
-          POLICY_TUPLE('Rotate_BBox', 0.8, 10)
+          POLICY_TUPLE('Rotate', 0.8, 10)
       ],
       [
-          POLICY_TUPLE('TranslateY_BBox', 1.0, 8),
-          POLICY_TUPLE('AutoContrast', 0.8, 2)
+          POLICY_TUPLE('Translate_Y', 1.0, 8),
+          POLICY_TUPLE('Auto_Contrast', 0.8, 2)
       ],
       [
-          POLICY_TUPLE('AutoContrast', 0.4, 6),
-          POLICY_TUPLE('ShearX_BBox', 0.8, 8),
+          POLICY_TUPLE('Auto_Contrast', 0.4, 6),
+          POLICY_TUPLE('Shear_X', 0.8, 8),
           POLICY_TUPLE('Brightness', 0.0, 10)
       ],
       [
-          POLICY_TUPLE('SolarizeAdd', 0.2, 6),
+          POLICY_TUPLE('Solarize_Add', 0.2, 6),
           POLICY_TUPLE('Contrast', 0.0, 10),
-          POLICY_TUPLE('AutoContrast', 0.6, 0)
+          POLICY_TUPLE('Auto_Contrast', 0.6, 0)
       ],
       [
           POLICY_TUPLE('Cutout', 0.2, 0),
@@ -165,14 +199,14 @@ def policy_v2() -> List[List[POLICY_TUPLE_TYPE]]:
           POLICY_TUPLE('Color', 1.0, 4)
       ],
       [
-          POLICY_TUPLE('TranslateY_BBox', 0.0, 4),
+          POLICY_TUPLE('Translate_Y', 0.0, 4),
           POLICY_TUPLE('Equalize', 0.6, 8),
           POLICY_TUPLE('Solarize', 0.0, 10)
       ],
       [
-          POLICY_TUPLE('TranslateY_BBox', 0.2, 2),
-          POLICY_TUPLE('ShearY_BBox', 0.8, 8),
-          POLICY_TUPLE('Rotate_BBox', 0.8, 8)
+          POLICY_TUPLE('Translate_Y', 0.2, 2),
+          POLICY_TUPLE('Shear_Y', 0.8, 8),
+          POLICY_TUPLE('Rotate', 0.8, 8)
       ],
       [
           POLICY_TUPLE('Cutout', 0.8, 8),
@@ -181,32 +215,32 @@ def policy_v2() -> List[List[POLICY_TUPLE_TYPE]]:
       ],
       [
           POLICY_TUPLE('Color', 0.8, 4),
-          POLICY_TUPLE('TranslateY_BBox', 1.0, 6),
-          POLICY_TUPLE('Rotate_BBox', 0.6, 6)
+          POLICY_TUPLE('Translate_Y', 1.0, 6),
+          POLICY_TUPLE('Rotate', 0.6, 6)
       ],
       [
-          POLICY_TUPLE('Rotate_BBox', 0.6, 10),
-          POLICY_TUPLE('BBox_Cutout', 1.0, 4),
+          POLICY_TUPLE('Rotate', 0.6, 10),
+          POLICY_TUPLE('Cutout_Fraction', 1.0, 4),
           POLICY_TUPLE('Cutout', 0.2, 8)
       ],
       [
-          POLICY_TUPLE('Rotate_BBox', 0.0, 0),
+          POLICY_TUPLE('Rotate', 0.0, 0),
           POLICY_TUPLE('Equalize', 0.6, 6),
-          POLICY_TUPLE('ShearY_BBox', 0.6, 8)
+          POLICY_TUPLE('Shear_Y', 0.6, 8)
       ],
       [
           POLICY_TUPLE('Brightness', 0.8, 8),
-          POLICY_TUPLE('AutoContrast', 0.4, 2),
+          POLICY_TUPLE('Auto_Contrast', 0.4, 2),
           POLICY_TUPLE('Brightness', 0.2, 2)
       ],
       [
-          POLICY_TUPLE('TranslateY_BBox', 0.4, 8),
+          POLICY_TUPLE('Translate_Y', 0.4, 8),
           POLICY_TUPLE('Solarize', 0.4, 6),
-          POLICY_TUPLE('SolarizeAdd', 0.2, 10)
+          POLICY_TUPLE('Solarize_Add', 0.2, 10)
       ],
       [
           POLICY_TUPLE('Contrast', 1.0, 10),
-          POLICY_TUPLE('SolarizeAdd', 0.2, 8),
+          POLICY_TUPLE('Solarize_Add', 0.2, 8),
           POLICY_TUPLE('Equalize', 0.2, 4)
       ],
     ]
@@ -223,23 +257,23 @@ def policies_v3() -> List[List[POLICY_TUPLE_TYPE]]:
     policy = [
         [
             POLICY_TUPLE('Posterize', 0.8, 2),
-            POLICY_TUPLE('TranslateX_BBox', 1.0, 8)
+            POLICY_TUPLE('Translate_X', 1.0, 8)
         ],
         [
-            POLICY_TUPLE('BBox_Cutout', 0.2, 10),
+            POLICY_TUPLE('Cutout_Fraction', 0.2, 10),
             POLICY_TUPLE('Sharpness', 1.0, 8)
         ],
         [
-            POLICY_TUPLE('Rotate_BBox', 0.6, 8),
-            POLICY_TUPLE('Rotate_BBox', 0.8, 10)
+            POLICY_TUPLE('Rotate', 0.6, 8),
+            POLICY_TUPLE('Rotate', 0.8, 10)
         ],
         [
             POLICY_TUPLE('Equalize', 0.8, 10),
-            POLICY_TUPLE('AutoContrast', 0.2, 10)
+            POLICY_TUPLE('Auto_Contrast', 0.2, 10)
         ],
         [
-            POLICY_TUPLE('SolarizeAdd', 0.2, 2),
-            POLICY_TUPLE('TranslateY_BBox', 0.2, 8)
+            POLICY_TUPLE('Solarize_Add', 0.2, 2),
+            POLICY_TUPLE('Translate_Y', 0.2, 8)
         ],
         [
             POLICY_TUPLE('Sharpness', 0.0, 2),
@@ -247,15 +281,15 @@ def policies_v3() -> List[List[POLICY_TUPLE_TYPE]]:
         ],
         [
             POLICY_TUPLE('Equalize', 1.0, 8),
-            POLICY_TUPLE('TranslateY_BBox', 1.0, 8)
+            POLICY_TUPLE('Translate_Y', 1.0, 8)
         ],
         [
             POLICY_TUPLE('Posterize', 0.6, 2),
-            POLICY_TUPLE('Rotate_BBox', 0.0, 10)
+            POLICY_TUPLE('Rotate', 0.0, 10)
         ],
         [
-            POLICY_TUPLE('AutoContrast', 0.6, 0),
-            POLICY_TUPLE('Rotate_BBox', 1.0, 6)
+            POLICY_TUPLE('Auto_Contrast', 0.6, 0),
+            POLICY_TUPLE('Rotate', 1.0, 6)
         ],
         [
             POLICY_TUPLE('Equalize', 0.0, 4),
@@ -263,22 +297,22 @@ def policies_v3() -> List[List[POLICY_TUPLE_TYPE]]:
         ],
         [
             POLICY_TUPLE('Brightness', 1.0, 2),
-            POLICY_TUPLE('TranslateY_BBox', 1.0, 6)
+            POLICY_TUPLE('Translate_Y', 1.0, 6)
         ],
         [
             POLICY_TUPLE('Contrast', 0.0, 2),
-            POLICY_TUPLE('ShearY_BBox', 0.8, 0)
+            POLICY_TUPLE('Shear_Y', 0.8, 0)
         ],
         [
-            POLICY_TUPLE('AutoContrast', 0.8, 10),
+            POLICY_TUPLE('Auto_Contrast', 0.8, 10),
             POLICY_TUPLE('Contrast', 0.2, 10)
         ],
         [
-            POLICY_TUPLE('Rotate_BBox', 1.0, 10),
+            POLICY_TUPLE('Rotate', 1.0, 10),
             POLICY_TUPLE('Cutout', 1.0, 10)
         ],
         [
-            POLICY_TUPLE('SolarizeAdd', 0.8, 6),
+            POLICY_TUPLE('Solarize_Add', 0.8, 6),
             POLICY_TUPLE('Equalize', 0.8, 8)
         ],
     ]
@@ -416,12 +450,24 @@ class PolicyContainer:
         )
         for i in policy:
             if np.random.random() < i.probability:
-                if (i.name == 'Cutout') or (i.name == 'BBox_Cutout'):
+                if i.name == 'Cutout':
                     kwargs = {
                         'height': image.shape[0],
                         'width': image.shape[1]
                     }
                     aug = self[i.name](i.magnitude, **kwargs)
+                elif i.name == 'Cutout_Fraction':
+                    if len(bbs) == 0:
+                        aug = self[i.name](i.magnitude)
+                    else:
+                        random_bb = np.random.choice(bbs)
+                        kwargs = {
+                            'height_bbox': random_bb.height,
+                            'width_bbox': random_bb.width,
+                            'height': image.shape[0],
+                            'width': image.shape[1]
+                        }
+                        aug = self[i.name](i.magnitude, **kwargs)
                 else:
                     aug = self[i.name](i.magnitude)
                 image, bbs = aug(image=image, bounding_boxes=bbs)
