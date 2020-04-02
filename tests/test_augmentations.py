@@ -260,6 +260,41 @@ def test_sharpness(mocker):
     aug_mock.assert_called_with(pytest.approx(0.82))
 
 
+def test_shear_x(mocker):
+
+    numpy_random_mock = mocker.patch('bbaug.augmentations.augmentations.np.random.random')
+    numpy_random_mock.return_value = 0.49
+    aug_mock = mocker.patch('bbaug.augmentations.augmentations.iaa.ShearX')
+
+    augmentations.shear_x(1)
+    assert aug_mock.called
+    aug_mock.assert_called_with(pytest.approx(-0.03))
+
+
+def test_shear_x_bbox(mocker):
+    numpy_random_mock = mocker.patch('bbaug.augmentations.augmentations.np.random.random')
+    numpy_random_mock.return_value = 0.0
+    aug_mock = mocker.patch('bbaug.augmentations.augmentations.iaa.BlendAlphaBoundingBoxes')
+    aug_shear_mock = mocker.patch('bbaug.augmentations.augmentations.iaa.ShearX')
+
+    augmentations.shear_x_bbox(7)
+    args, kwargs = aug_mock.call_args_list[0]
+    assert tuple([None]) == args
+    assert 'foreground' in kwargs
+    aug_shear_mock.assert_called_with(pytest.approx(-0.21))
+
+
+def test_shear_y(mocker):
+
+    numpy_random_mock = mocker.patch('bbaug.augmentations.augmentations.np.random.random')
+    numpy_random_mock.return_value = 0.32
+    aug_mock = mocker.patch('bbaug.augmentations.augmentations.iaa.ShearY')
+
+    augmentations.shear_y(3)
+    assert aug_mock.called
+    aug_mock.assert_called_with(pytest.approx(-0.09))
+
+
 def test_shear_y_bbox(mocker):
 
     numpy_random_mock = mocker.patch('bbaug.augmentations.augmentations.np.random.random')
