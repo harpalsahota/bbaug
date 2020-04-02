@@ -240,22 +240,14 @@ def test_rotate(mocker):
 
     numpy_random_mock = mocker.patch('bbaug.augmentations.augmentations.np.random.random')
     numpy_random_mock.return_value = 0.5
-    # aug_mock = mocker.patch('bbaug.augmentations.augmentations.iaa.BlendAlphaBoundingBoxes')
     aug_mock_rotate = mocker.patch('bbaug.augmentations.augmentations.iaa.Rotate')
 
     augmentations.rotate(8)
     assert aug_mock_rotate.called
-    # args, kwargs = aug_mock_rotate.call_args_list[0]
-    # assert tuple([None]) == args
-    # assert 'foreground' in kwargs
     aug_mock_rotate.assert_called_with(pytest.approx(24.0))
 
-    # aug_mock.reset_mock()
     aug_mock_rotate.reset_mock()
     augmentations.rotate(10)
-    # args, kwargs = aug_mock.call_args_list[0]
-    # assert tuple([None]) == args
-    # assert 'foreground' in kwargs
     aug_mock_rotate.assert_called_with(pytest.approx(30.0))
 
 
