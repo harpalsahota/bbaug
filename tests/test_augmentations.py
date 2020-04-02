@@ -207,6 +207,18 @@ def test_equalise(mocker):
     aug_mock.assert_called_with()
 
 
+def test_fliplr(mocker):
+
+    aug_mock = mocker.patch('bbaug.augmentations.augmentations.iaa.BlendAlphaBoundingBoxes')
+    aug_fliplr_mock = mocker.patch('bbaug.augmentations.augmentations.iaa.Fliplr')
+
+    augmentations.fliplr_boxes(1)
+    args, kwargs = aug_mock.call_args_list[0]
+    assert tuple([None]) == args
+    assert 'foreground' in kwargs
+    aug_fliplr_mock.assert_called_with(pytest.approx(1.0))
+
+
 def test_posterize(mocker):
 
     aug_mock = mocker.patch('bbaug.augmentations.augmentations.iaa.color.Posterize')
