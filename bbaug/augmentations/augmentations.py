@@ -194,7 +194,9 @@ def contrast(magnitude: int) -> iaa.GammaContrast:
 @validate_magnitude
 def cutout(magnitude: int, **kwargs) -> iaa.Cutout:
     """
-    Apply cutout to an image
+    Apply cutout anywhere in the image. Passing the height and width
+    of the image as integers and as keywords will scale the bounding
+    box according to the policy
 
     Tensorflow Policy Equivalent: cutout
 
@@ -206,6 +208,9 @@ def cutout(magnitude: int, **kwargs) -> iaa.Cutout:
 
     :type magnitude: int
     :param magnitude: magnitude of cutout
+    :param kwargs:
+        height: height of the image as int
+        width: width of the image as int
     :rtype: iaa.Cutout
     :return: Method to apply cutout to image
     """
@@ -223,7 +228,10 @@ def cutout(magnitude: int, **kwargs) -> iaa.Cutout:
 @validate_magnitude
 def cutout_fraction(magnitude: int, **kwargs) -> iaa.Cutout:
     """
-    Applies cutout to the image according to bbox information.
+    Applies cutout to the image according to bbox information. This will
+    apply only to a single bounding box in the image. For the augmentation
+    to apply the policy correctly the image height and width along with the
+    bounding box height and width are required as keyword arguments.
 
     Tensorflow Policy Equivalent: bbox_cutout
 
@@ -238,6 +246,11 @@ def cutout_fraction(magnitude: int, **kwargs) -> iaa.Cutout:
 
     :type magnitude: int
     :param magnitude: magnitude of cutout
+    :param kwargs:
+        height: height of the image as int
+        width: width of the image as int
+        height_bbox: height of the bounding box as int
+        width_bbox: width of the bounding box as int
     :rtype: iaa.Cutout
     :return: Method to apply cutout to bounding boxes
     """
@@ -257,10 +270,17 @@ def cutout_fraction(magnitude: int, **kwargs) -> iaa.Cutout:
 
 def cutout_bbox(magnitude: int, **kwargs) -> iaa.BlendAlphaBoundingBoxes:
     """
-    Only apply cutout to the bounding box area
+    Only apply cutout to the bounding box area. Passing the
+    height and width of the image as integers and as keywords
+    will scale the bounding box according to the policy. Note, the
+    cutout location is chosen randomly and will only appear if it
+    falls within the bounding box.
 
     :type magnitude: int
     :param magnitude: magnitude of cutout
+    :param kwargs:
+        height: height of the image as int
+        width: width of the image as int
     :rtype: iaa.BlendAlphaBoundingBoxes
     :return: Method to apply cutout only to bounding boxes
     """
