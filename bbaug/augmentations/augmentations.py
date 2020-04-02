@@ -452,7 +452,7 @@ def solarize_add(magnitude: int):
     return aug
 
 
-def translate_x(magnitude: int) ->  iaa.geometric.TranslateX:
+def translate_x(magnitude: int) -> iaa.geometric.TranslateX:
     """
     Translate bounding boxes only on the x-axis
 
