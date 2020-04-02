@@ -24,6 +24,7 @@ __all__ = [
     'colour',
     'contrast',
     'cutout',
+    'cutout_bbox',
     'cutout_fraction',
     'equalise',
     'fliplr_boxes',
@@ -32,6 +33,7 @@ __all__ = [
     'sharpness',
     'shear_x',
     'shear_y',
+    'solarize',
     'solarize_add',
     'translate_x',
     'translate_x_bbox',
@@ -250,6 +252,26 @@ def cutout_fraction(magnitude: int, **kwargs) -> iaa.BlendAlphaBoundingBoxes:
     return iaa.Cutout(**cutout_args)
 
 
+def cutout_bbox(magnitude: int, **kwargs) -> iaa.BlendAlphaBoundingBoxes:
+    """
+    Only apply cutout to the bounding box area
+
+    :type magnitude: int
+    :param magnitude: magnitude of cutout
+    :rtype: iaa.BlendAlphaBoundingBoxes
+    :return: Method to apply cutout only to bounding boxes
+    """
+    level = int((magnitude/_MAX_MAGNITUDE) * CUTOUT_BBOX)
+    cutout_args = {}
+    if 'height' in kwargs and 'width' in kwargs:
+        size = tuple([level / kwargs['height'], level / kwargs['width']])
+        cutout_args['size'] = size
+    return iaa.BlendAlphaBoundingBoxes(
+        None,
+        foreground=iaa.Cutout(**cutout_args)
+    )
+
+
 def equalise(_: int) -> iaa.AllChannelsHistogramEqualization:
     """
     Apply auto histogram equalisation to the image
@@ -395,6 +417,18 @@ def shear_y_bbox(magnitude: int) -> iaa.BlendAlphaBoundingBoxes:
     )
 
 
+def solarize(_: int) -> iaa.pillike.Solarize:
+    """
+    Solarize the image
+
+    :type _: int
+    :param _: Unused, kept to fit within the ecosystem
+    :rtype: iaa.pillike.Solarize
+    :return: Method to solarize image
+    """
+    return iaa.pillike.Solarize(threshold=128)
+
+
 @validate_magnitude
 def solarize_add(magnitude: int):
     """
@@ -486,9 +520,10 @@ def translate_y_bbox(magnitude: int) ->iaa.BlendAlphaBoundingBoxes:
 
 NAME_TO_AUGMENTATION = {
     'Auto_Contrast': auto_contrast,
-    'Cutout_Fraction': cutout_fraction,
     'Brightness': brightness,
     'Cutout': cutout,
+    'Cutout_BBox': cutout_bbox,
+    'Cutout_Fraction': cutout_fraction,
     'Color': colour,
     'Contrast': contrast,
     'Equalize': equalise,
@@ -500,6 +535,7 @@ NAME_TO_AUGMENTATION = {
     'Shear_X_BBox': shear_x_bbox,
     'Shear_Y': shear_y,
     'Shear_Y_BBox': shear_y_bbox,
+    'Solarize': solarize,
     'Solarize_Add': solarize_add,
     'Translate_X': translate_x,
     'Translate_X_BBoxes': translate_x_bbox,
