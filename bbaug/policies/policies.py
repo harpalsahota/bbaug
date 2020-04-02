@@ -126,7 +126,7 @@ def policies_v1() -> List[List[POLICY_TUPLE_TYPE]]:
             POLICY_TUPLE('Equalize', 1.0, 2)
         ],
         [
-            POLICY_TUPLE('Cutout_Only_BBoxes', 0.4, 6),
+            POLICY_TUPLE('Cutout_BBox', 0.4, 6),
             POLICY_TUPLE('Translate_Y_BBoxes', 0.8, 2)
         ],
         [
