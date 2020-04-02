@@ -306,7 +306,16 @@ def test_shear_y_bbox(mocker):
     aug_mock.assert_called_with(pytest.approx(0.06))
 
 
-def test_solarize_add(mocker):
+def test_solarize(mocker):
+
+    aug_mock = mocker.patch('bbaug.augmentations.augmentations.iaa.pillike.Solarize')
+
+    augmentations.solarize(50)
+    assert aug_mock.called
+    aug_mock.assert_called_with(threshold=128)
+
+
+def test_solarize_add():
 
     aug = augmentations.solarize_add(2)
     img_aug, bbs_aug = aug(np.zeros((2, 2)).astype('uint8'), [])
@@ -317,6 +326,17 @@ def test_solarize_add(mocker):
     img_aug, bbs_aug = aug(np.array([[22, 255], [0, 128]]).astype('uint8'), [])
     exp = np.array([[77, 255], [55, 128]])
     assert np.array_equal(exp, img_aug)
+
+
+def test_translate_x(mocker):
+
+    numpy_random_mock = mocker.patch('bbaug.augmentations.augmentations.np.random.random')
+    numpy_random_mock.return_value = 0.72
+    aug_mock = mocker.patch('bbaug.augmentations.augmentations.iaa.geometric.TranslateX')
+
+    augmentations.translate_x(8)
+    assert aug_mock.called
+    aug_mock.assert_called_with(px=200)
 
 
 def test_translate_x_bbox(mocker):
@@ -345,6 +365,17 @@ def test_translate_x_bbox(mocker):
     args, kwargs = aug_mock_translate.call_args_list[0]
     assert tuple() == args
     assert {'px': 36} == kwargs
+
+
+def test_translate_y(mocker):
+
+    numpy_random_mock = mocker.patch('bbaug.augmentations.augmentations.np.random.random')
+    numpy_random_mock.return_value = 0.22
+    aug_mock = mocker.patch('bbaug.augmentations.augmentations.iaa.geometric.TranslateY')
+
+    augmentations.translate_y(7)
+    assert aug_mock.called
+    aug_mock.assert_called_with(px=-175)
 
 
 def test_translate_y_bbox(mocker):
