@@ -450,7 +450,7 @@ class PolicyContainer:
         )
         for i in policy:
             if np.random.random() < i.probability:
-                if i.name == 'Cutout':
+                if (i.name == 'Cutout') or (i.name == 'Cutout_BBox'):
                     kwargs = {
                         'height': image.shape[0],
                         'width': image.shape[1]
