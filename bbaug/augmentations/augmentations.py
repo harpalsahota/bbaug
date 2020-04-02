@@ -221,7 +221,7 @@ def cutout(magnitude: int, **kwargs) -> iaa.Cutout:
 
 
 @validate_magnitude
-def cutout_fraction(magnitude: int, **kwargs) -> iaa.BlendAlphaBoundingBoxes:
+def cutout_fraction(magnitude: int, **kwargs) -> iaa.Cutout:
     """
     Applies cutout to the image according to bbox information.
 
