@@ -79,9 +79,9 @@ class TestPolicyContainer:
         bbcutout_mock.return_value = aug_mock
         p = policies.PolicyContainer(
             policies.policies_v3(),
-            name_to_augmentation={'BBox_Cutout': bbcutout_mock},
+            name_to_augmentation={'Cutout_BBox': bbcutout_mock},
         )
-        policy = [policies.POLICY_TUPLE('BBox_Cutout', 0.2, 10)]
+        policy = [policies.POLICY_TUPLE('Cutout_BBox', 0.2, 10)]
         bbs = [[0, 0, 25, 25]]
         p.apply_augmentation(policy, np.zeros((100, 100, 3)).astype('uint8'), bbs)
         assert bbcutout_mock.called
