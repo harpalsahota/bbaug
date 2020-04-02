@@ -243,7 +243,10 @@ def cutout_fraction(magnitude: int, **kwargs) -> iaa.Cutout:
     """
     level = (magnitude / _MAX_MAGNITUDE) * CUTOUT_MAX_PAD_FRACTION
     cutout_args = {}
-    if all(i in kwargs for i in ['height', 'width', 'height_bbox', 'width_bbox']):
+    if all(
+            i in kwargs
+            for i in ['height', 'width', 'height_bbox', 'width_bbox']
+    ):
         size = tuple([
             (level * kwargs['height_bbox']) / kwargs['height'],
             (level * kwargs['width_bbox']) / kwargs['width']
@@ -485,7 +488,7 @@ def translate_x_bbox(magnitude: int) -> iaa.BlendAlphaBoundingBoxes:
     )
 
 
-def translate_y(magnitude: int) ->iaa.geometric.TranslateY:
+def translate_y(magnitude: int) -> iaa.geometric.TranslateY:
     """
     Translate bounding boxes only on the y-axis
 
@@ -500,7 +503,7 @@ def translate_y(magnitude: int) ->iaa.geometric.TranslateY:
     return iaa.geometric.TranslateY(px=level)
 
 
-def translate_y_bbox(magnitude: int) ->iaa.BlendAlphaBoundingBoxes:
+def translate_y_bbox(magnitude: int) -> iaa.BlendAlphaBoundingBoxes:
     """
     Translate bounding boxes only on the y-axis
 
