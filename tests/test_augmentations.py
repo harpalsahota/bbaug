@@ -154,6 +154,30 @@ def test_cutout(mocker):
     assert {'size': pytest.approx((0.1, 0.1))} == kwargs
 
 
+def test_cutout_bbox(mocker):
+
+    aug_mock = mocker.patch('bbaug.augmentations.augmentations.iaa.BlendAlphaBoundingBoxes')
+    aug_cutout_mock = mocker.patch('bbaug.augmentations.augmentations.iaa.Cutout')
+
+    augmentations.cutout_bbox(10)
+    args, kwargs = aug_mock.call_args_list[0]
+    assert tuple([None]) == args
+    assert 'foreground' in kwargs
+    aug_cutout_mock.assert_called_with()
+
+    aug_mock.reset_mock()
+    aug_cutout_mock.reset_mock()
+    augmentations.cutout_bbox(10, height=500, width=500)
+    args, kwargs = aug_mock.call_args_list[0]
+    assert tuple([None]) == args
+    assert 'foreground' in kwargs
+    args, kwargs = aug_cutout_mock.call_args_list[0]
+    assert tuple() == args
+    assert 'size' in kwargs
+    assert {'size': pytest.approx((0.1, 0.1))} == kwargs
+    aug_cutout_mock.assert_called_with(size=pytest.approx((0.1, 0.1)))
+
+
 def test_cutout_fraction(mocker):
 
     aug_mock_cutout = mocker.patch('bbaug.augmentations.augmentations.iaa.Cutout')
