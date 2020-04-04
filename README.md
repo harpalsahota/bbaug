@@ -37,10 +37,51 @@ Installation is best done via pip:
 - PyTorch
 - Torchvision
 
-## Comparisons to Tensorflow Implementation
+## Policy Implementation
 
-### Policy Version 2 and Version 3 Implementation
+#### Version 0
+![image](assets/images/policy_v0/v0_0.png)
+![image](assets/images/policy_v0/v0_1.png)
+![image](assets/images/policy_v0/v0_2.png)
+![image](assets/images/policy_v0/v0_3.png)
+![image](assets/images/policy_v0/v0_4.png)
+#### Version 1
+![image](assets/images/policy_v1/v1_0.png)
+![image](assets/images/policy_v1/v1_1.png)
+![image](assets/images/policy_v1/v1_2.png)
+![image](assets/images/policy_v1/v1_3.png)
+![image](assets/images/policy_v1/v1_4.png)
+![image](assets/images/policy_v1/v1_5.png)
+![image](assets/images/policy_v1/v1_6.png)
+![image](assets/images/policy_v1/v1_7.png)
+![image](assets/images/policy_v1/v1_8.png)
+![image](assets/images/policy_v1/v1_9.png)
+![image](assets/images/policy_v1/v1_10.png)
+![image](assets/images/policy_v1/v1_11.png)
+![image](assets/images/policy_v1/v1_12.png)
+![image](assets/images/policy_v1/v1_13.png)
+![image](assets/images/policy_v1/v1_14.png)
+![image](assets/images/policy_v1/v1_15.png)
+![image](assets/images/policy_v1/v1_16.png)
+![image](assets/images/policy_v1/v1_17.png)
+![image](assets/images/policy_v1/v1_18.png)
+![image](assets/images/policy_v1/v1_19.png)
 #### Version 2
+![image](assets/images/policy_v2/v2_0.png)
+![image](assets/images/policy_v2/v2_1.png)
+![image](assets/images/policy_v2/v2_2.png)
+![image](assets/images/policy_v2/v2_3.png)
+![image](assets/images/policy_v2/v2_4.png)
+![image](assets/images/policy_v2/v2_5.png)
+![image](assets/images/policy_v2/v2_6.png)
+![image](assets/images/policy_v2/v2_7.png)
+![image](assets/images/policy_v2/v2_8.png)
+![image](assets/images/policy_v2/v2_9.png)
+![image](assets/images/policy_v2/v2_10.png)
+![image](assets/images/policy_v2/v2_11.png)
+![image](assets/images/policy_v2/v2_12.png)
+![image](assets/images/policy_v2/v2_13.png)
+![image](assets/images/policy_v2/v2_14.png)
 #### Version 3
 ![image](assets/images/policy_v3/v3_0.png)
 ![image](assets/images/policy_v3/v3_1.png)
