@@ -326,7 +326,12 @@ def list_policies() -> List:
     :rtype: List
     :return: List of available policies
     """
-    return [policies_v3.__name__]
+    return [
+        policies_v0.__name__,
+        policies_v1.__name__,
+        policies_v2.__name__,
+        policies_v3.__name__,
+    ]
 
 
 class PolicyContainer:
