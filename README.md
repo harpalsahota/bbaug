@@ -93,7 +93,19 @@ print(policies_v3()) # Will list all the polices in version 3
 ```
 
 #### Visualising a Policy
- TODO
+
+To visulaise a policy on a single image a `visualise_policy` method is available in the `visuals` module.
+
+```python
+from bbaug.visuals import visualise_policy
+visualise_policy(
+    'path/to/image',
+    'save/dir/of/augmentations',
+    bounding_boxes, # Bounding boxes is a list of list of bounding boxes in pixels (int): e.g. [[x_min, y_min, x_man, y_max], [x_min, y_min, x_man, y_max]]
+    policy, # the policy to visualise
+    name_to_augmentation, # (optional, default: augmentations.NAME_TO_AUGMENTATION) The dictionary mapping the augmentation name to the augmentation method
+)
+```
 
 #### Policy Container
 To help integrate the policies into training a `PolicyContainer` class available in the `policies`
