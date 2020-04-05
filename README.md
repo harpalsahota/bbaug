@@ -134,8 +134,12 @@ random_policy = policy_container.select_random_policy()
 img_aug, bbs_aug = policy_container.apply_augmentation(random_policy, image, bounding_boxes)
 ```
 ## Policy Implementation
+The policies implemented in `bbaug` are shown below. Each column represents a different run for that given sub-policy
+as each augmentation in the sub-policy has it's own probability this results in variations between runs.
 
 #### Version 0
+These are the policies used in the paper.
+
 ![image](assets/images/policy_v0/v0_0.png)
 ![image](assets/images/policy_v0/v0_1.png)
 ![image](assets/images/policy_v0/v0_2.png)
