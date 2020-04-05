@@ -23,8 +23,8 @@ training of a model. This package builds on top of the excellent image augmentat
 *Doest not happen for bounding box specific augmentations
 
 ## To Do
-- [ ] Implementation of version 2 of policies
-- [ ] Implementation of version 1 of policies
+- [x] ~~Implementation of version 2 of policies~~ (implemented in v0.2)
+- [x] ~~Implementation of version 1 of policies~~ (implemented in v0.2)
 - [ ] For bounding box augmentations apply the probability individually for each box not collectively
 
 ## Installation
@@ -37,6 +37,90 @@ Installation is best done via pip:
 - PyTorch
 - Torchvision
 
+## Description and Usage
+
+For detailed description on usage please refer to the Python notebooks provided in the `notebooks` folder.
+
+A augmentation is define by 3 attributes:
+- **Name**: Name of the augmentation
+- **Probability**: Probability of augmentation being applied
+- **Magnitude**: The degree of the augmentation (values are integers between 0 and 10)
+
+A `sub-policy` is a collection of augmentations: e.g.
+```python
+sub_policy = [('translation', 0.5, 1), ('rotation', 1.0, 9)]
+```
+In the above example we have two augmentations in a sub-policy. The `translation` augmentation has a 
+probability of 0.5 and a magnitude of 1, whereas the `rotation` augmentation has a probability of 1.0 and a 
+magnitude of 9. The magnitudes do not directly translate into the augmentation policy i.e. a magnitude of 9
+does not mean a 9 degrees rotation. Instead, scaling is applied to the magnitude to determine the value passed
+to the augmentation method. The scaling varies depending on the augmentation used.
+
+A `policy` is a set of sub-policies:
+```python
+policies = [
+    [('translation', 0.5, 1), ('rotation', 1.0, 9)],
+    [('colour', 0.5, 1), ('cutout', 1.0, 9)],
+    [('rotation', 0.5, 1), ('solarize', 1.0, 9)]
+]
+``` 
+During training, a random policy is selected from the list of sub-policies and applied to the image and because
+each augmentation has it's own probability this adds a degree of stochasticity to training. 
+
+### Augmentations
+
+Each augmentation contains a string referring to the name of the augmentation. The `augmentations` module
+contains a dictionary mapping the name to a method reference of the augmentation.
+```python
+from bbaug.augmentations import NAME_TO_AUGMENTATION
+print(NAME_TO_AUGMENTATION) # Shows the dictionary of the augmentation name to the method reference
+```
+Some augmentations are applied only to the bounding boxes. Augmentations which have the suffix `BBox` are only
+applied to the bounding boxes in the image.
+
+#### Listing All Policies Available
+To obtain a list of all available polices run the `list_policies` method. This will return a list of strings
+containing the function names for the policy sets.
+```python
+from bbaug.policies import list_policies
+print(list_policies()) # List of policies available
+```
+ 
+#### Listing the policies in a policy set
+```python
+from bbaug.policies import policies_v3
+print(policies_v3()) # Will list all the polices in version 3
+```
+
+#### Visualising a Policy
+ TODO
+
+#### Policy Container
+To help integrate the policies into training a `PolicyContainer` class available in the `policies`
+module. The container accepts the following inputs:
+- **policy_set** (required): The policy set to use
+- **name_to_augmentation** (optional, default: `augmentations.NAME_TO_AUGMENTATION`): The dictionary mapping the augmentation name to the augmentation method
+- **return_yolo** (optional, default: `False`): Return the bounding boxes in YOLO format otherwise `[x_min, y_min, x_man, y_max]` in pixels is returned 
+
+Usage of the policy container:
+```python
+from bbaug import policies
+
+# select policy v3 set
+aug_policy = policies.policies_v3()
+ 
+# instantiate the policy container with the selected policy set
+policy_container = policies.PolicyContainer(aug_policy)
+
+# select a random policy from the policy set
+random_policy = policy_container.select_random_policy() 
+
+# Apply the augmentation. Returns the augmented image and bounding boxes.
+# Image is a numpy array of the image
+# Bounding boxes is a list of list of bounding boxes in pixels (int).
+# e.g. [[x_min, y_min, x_man, y_max], [x_min, y_min, x_man, y_max]]
+img_aug, bbs_aug = policy_container.apply_augmentation(random_policy, image, bounding_boxes)
+```
 ## Policy Implementation
 
 #### Version 0
@@ -98,85 +182,3 @@ Installation is best done via pip:
 ![image](assets/images/policy_v3/v3_12.png)
 ![image](assets/images/policy_v3/v3_13.png)
 ![image](assets/images/policy_v3/v3_14.png)
-## Description and Usage
-
-For detailed description on usage please refer to the Python notebooks provided in the `notebooks` folder.
-
-A augmentation is define by 3 attributes:
-- **Name**: Name of the augmentation
-- **Probability**: Probability of augmentation being applied
-- **Magnitude**: The degree of the augmentation (values are integers between 0 and 10)
-
-A `single policy` is a collection of augmentations: e.g.
-```python
-single_policy = [('translation', 0.5, 1), ('rotation', 1.0, 9)]
-```
-In the above example we have two augmentations in a single policy. The `translation` policy has a 
-probability of 0.5 and a magnitude of 1, whereas the `rotation` policy has a probability of 1.0 and a 
-magnitude of 9. The magnitudes do not directly translate into the augmentation policy i.e. a magnitude of 9
-does not mean a 9 degrees rotation. Instead, scaling is applied to the magnitude to determine the value passed
-to the augmentation method. The scaling varies depending on the augmentation used.
-
-A `policy` is a set of single policies:
-```python
-policies = [
-    [('translation', 0.5, 1), ('rotation', 1.0, 9)],
-    [('colour', 0.5, 1), ('cutout', 1.0, 9)],
-    [('rotation', 0.5, 1), ('solarize', 1.0, 9)]
-]
-``` 
-During training, a random policy is selected from the list of policies and applied to the image and because
-each augmentation has it's own probability this adds a degree of stochasticity to training. 
-
-### Policies
-
-Each augmentation contains a string referring to the name of the augmentation. The `augmentations` module
-contains a dictionary mapping the name to a method reference of the augmentation.
-```python
-from bbaug.augmentations import NAME_TO_AUGMENTATION
-print(NAME_TO_AUGMENTATION) # Shows the dictionary of the augmentation name to the method reference
-```
-
-#### Listing All Policies Available
-To obtain a list of all available polices run the `list_policies` method. This will return a list of strings
-containing the function names for the policy sets.
-```python
-from bbaug.policies import list_policies
-print(list_policies()) # List of policies available
-```
- 
-#### Listing the policies in a policy set
-```python
-from bbaug.policies import policies_v3
-print(policies_v3()) # Will list all the polices in version 3
-```
-
-#### Visualising a Policy
- TODO
-
-#### Policy Container
-To help integrate the policies into training a `PolicyContainer` class available in the `policies`
-module. The container accepts the following inputs:
-- **policy_set** (required): The policy set to use
-- **name_to_augmentation** (optional, default: `augmentations.NAME_TO_AUGMENTATION`): The dictionary mapping the augmentation name to the augmentation method
-- **return_yolo** (optional, default: `False`): Return the bounding boxes in YOLO format otherwise `[x_min, y_min, x_man, y_max]` in pixels is returned 
-
-Usage of the policy container:
-```python
-from bbaug import policies
-
-# select policy v3 set
-aug_policy = policies.policies_v3()
- 
-# instantiate the policy container with the selected policy set
-policy_container = policies.PolicyContainer(aug_policy)
-
-# select a random policy from the policy set
-random_policy = policy_container.select_random_policy() 
-
-# Apply the augmentation. Returns the augmented image and bounding boxes.
-# Image is a numpy array of the image
-# Bounding boxes is a list of list of bounding boxes in pixels (int).
-# e.g. [[x_min, y_min, x_man, y_max], [x_min, y_min, x_man, y_max]]
-img_aug, bbs_aug = policy_container.apply_augmentation(random_policy, image, bounding_boxes)
-```
