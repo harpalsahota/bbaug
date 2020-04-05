@@ -52,7 +52,7 @@ def policies_v0():
           POLICY_TUPLE('Equalize', 0.8, 10)
       ],
       [
-          POLICY_TUPLE('Translate_Y_BBoxes', 0.2, 2),
+          POLICY_TUPLE('Translate_Y_BBox', 0.2, 2),
           POLICY_TUPLE('Cutout', 0.8, 8)
       ],
       [
@@ -61,7 +61,7 @@ def policies_v0():
       ],
       [
           POLICY_TUPLE('Shear_Y', 1.0, 2),
-          POLICY_TUPLE('Translate_Y_BBoxes', 0.6, 6)
+          POLICY_TUPLE('Translate_Y_BBox', 0.6, 6)
       ],
       [
           POLICY_TUPLE('Rotate', 0.6, 10),
@@ -83,7 +83,7 @@ def policies_v1() -> List[List[POLICY_TUPLE_TYPE]]:
             POLICY_TUPLE('Equalize', 0.8, 10)
         ],
         [
-            POLICY_TUPLE('Translate_Y_BBoxes', 0.2, 2),
+            POLICY_TUPLE('Translate_Y_BBox', 0.2, 2),
             POLICY_TUPLE('Cutout', 0.8, 8)],
         [
             POLICY_TUPLE('Sharpness', 0.0, 8),
@@ -91,7 +91,7 @@ def policies_v1() -> List[List[POLICY_TUPLE_TYPE]]:
         ],
         [
             POLICY_TUPLE('Shear_Y', 1.0, 2),
-            POLICY_TUPLE('Translate_Y_BBoxes', 0.6, 6)
+            POLICY_TUPLE('Translate_Y_BBox', 0.6, 6)
         ],
         [
             POLICY_TUPLE('Rotate', 0.6, 10),
@@ -103,7 +103,7 @@ def policies_v1() -> List[List[POLICY_TUPLE_TYPE]]:
         ],
         [
             POLICY_TUPLE('Shear_Y_BBox', 0.8, 2),
-            POLICY_TUPLE('Fliplr_BBoxes', 0.0, 10)
+            POLICY_TUPLE('Fliplr_BBox', 0.0, 10)
         ],
         [
             POLICY_TUPLE('Equalize', 0.6, 10),
@@ -111,7 +111,7 @@ def policies_v1() -> List[List[POLICY_TUPLE_TYPE]]:
         ],
         [
             POLICY_TUPLE('Color', 1.0, 10),
-            POLICY_TUPLE('Translate_Y_BBoxes', 0.4, 6)
+            POLICY_TUPLE('Translate_Y_BBox', 0.4, 6)
         ],
         [
             POLICY_TUPLE('Rotate', 0.8, 10),
@@ -127,7 +127,7 @@ def policies_v1() -> List[List[POLICY_TUPLE_TYPE]]:
         ],
         [
             POLICY_TUPLE('Cutout_BBox', 0.4, 6),
-            POLICY_TUPLE('Translate_Y_BBoxes', 0.8, 2)
+            POLICY_TUPLE('Translate_Y_BBox', 0.8, 2)
         ],
         [
             POLICY_TUPLE('Color', 0.2, 8),
@@ -135,7 +135,7 @@ def policies_v1() -> List[List[POLICY_TUPLE_TYPE]]:
         ],
         [
             POLICY_TUPLE('Sharpness', 0.4, 4),
-            POLICY_TUPLE('Translate_Y_BBoxes', 0.0, 4)
+            POLICY_TUPLE('Translate_Y_BBox', 0.0, 4)
         ],
         [
             POLICY_TUPLE('Sharpness', 1.0, 4),
@@ -147,11 +147,11 @@ def policies_v1() -> List[List[POLICY_TUPLE_TYPE]]:
         ],
         [
             POLICY_TUPLE('Shear_Y', 0.6, 10),
-            POLICY_TUPLE('Translate_Y_BBoxes', 0.6, 8)
+            POLICY_TUPLE('Translate_Y_BBox', 0.6, 8)
         ],
         [
             POLICY_TUPLE('Shear_X', 0.2, 6),
-            POLICY_TUPLE('Translate_Y_BBoxes', 0.2, 10)
+            POLICY_TUPLE('Translate_Y_BBox', 0.2, 10)
         ],
         [
             POLICY_TUPLE('Solarize_Add', 0.6, 8),

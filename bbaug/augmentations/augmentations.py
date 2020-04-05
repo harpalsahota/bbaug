@@ -550,7 +550,7 @@ NAME_TO_AUGMENTATION = {
     'Color': colour,
     'Contrast': contrast,
     'Equalize': equalise,
-    'Fliplr_BBoxes': fliplr_boxes,
+    'Fliplr_BBox': fliplr_boxes,
     'Posterize': posterize,
     'Rotate': rotate,
     'Sharpness': sharpness,
@@ -561,7 +561,7 @@ NAME_TO_AUGMENTATION = {
     'Solarize': solarize,
     'Solarize_Add': solarize_add,
     'Translate_X': translate_x,
-    'Translate_X_BBoxes': translate_x_bbox,
+    'Translate_X_BBox': translate_x_bbox,
     'Translate_Y': translate_y,
-    'Translate_Y_BBoxes': translate_y_bbox,
+    'Translate_Y_BBox': translate_y_bbox,
 }
