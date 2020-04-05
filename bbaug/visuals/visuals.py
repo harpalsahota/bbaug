@@ -26,7 +26,7 @@ def visualise_policy(
         save_path: str,
         bounding_boxes: List[List[int]],
         policy: List[List[POLICY_TUPLE_TYPE]],
-        name_to_augmentation: Dict[str, Callable]=NAME_TO_AUGMENTATION
+        name_to_augmentation: Dict[str, Callable] = NAME_TO_AUGMENTATION
 ) -> None:
     """
     Visualise a single policy on an image
@@ -54,7 +54,10 @@ def visualise_policy(
         image = imageio.imread(image_path)
         [ax.axis('off') for ax in axes]
         for ax in range(3):
-            img_aug, bbs_aug = policy_container.apply_augmentation(pol, image, bounding_boxes)
+            img_aug, bbs_aug = policy_container.apply_augmentation(
+                pol, image,
+                bounding_boxes
+            )
             bbs_aug = BoundingBoxesOnImage([
                 BoundingBox(*box)
                 for box in bbs_aug
