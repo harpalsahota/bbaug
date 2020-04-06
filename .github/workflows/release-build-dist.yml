@@ -22,6 +22,7 @@ jobs:
       run: |
         pip install --user --upgrade setuptools wheel
         python3 setup.py sdist bdist_wheel
+        echo github.event.ref
     - name: Publish package to test PyPi
       if: github.event_name == 'push' && startsWith(github.event.ref, 'refs/tags')
       uses: pypa/gh-action-pypi-publish@master
