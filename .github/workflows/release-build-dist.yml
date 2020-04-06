@@ -5,11 +5,13 @@ name: Release Branch Dist CI
 
 on:
   push:
-    branches: [ release ]
+    branches:
+      - release
     tags:
-      - '*rc*'
+      - *rc*
   pull_request:
-    branches: [ release ]
+    branches:
+      - release
 jobs:
   build-dist:
     runs-on: ubuntu-latest
@@ -22,7 +24,6 @@ jobs:
       run: |
         pip install --user --upgrade setuptools wheel
         python3 setup.py sdist bdist_wheel
-        echo github.event.ref
     - name: Publish package to test PyPi
       if: github.event_name == 'push' && startsWith(github.event.ref, 'refs/tags')
       uses: pypa/gh-action-pypi-publish@master
