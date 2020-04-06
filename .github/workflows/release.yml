@@ -44,20 +44,3 @@ jobs:
         pip install pytest
         pip install pytest-mock
         pytest
-  build-dist:
-    runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        python-version: [3.6]
-    steps:
-    - name: Build dist
-      if: github.event_name == 'push' && startsWith(github.event.ref, 'refs/tags')
-      run: |
-        pip install --user --upgrade setuptools wheel
-        python3 setup.py sdist bdist_wheel
-    - name: Publish package to test PyPi
-      if: github.event_name == 'push' && startsWith(github.event.ref, 'refs/tags')
-      uses: pypa/gh-action-pypi-publish@master
-      with:
-        user: __token__
-        password: ${{ secrets.PYPI_TEST_TOKEN }}
