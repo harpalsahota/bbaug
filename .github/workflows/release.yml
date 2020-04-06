@@ -44,7 +44,13 @@ jobs:
         pip install pytest
         pip install pytest-mock
         pytest
+  build-dist:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: [3.6]
     - name: Build dist
+      if: github.event_name == 'push' && startsWith(github.event.ref, 'refs/tags')
       run: |
         pip install --user --upgrade setuptools wheel
         python3 setup.py sdist bdist_wheel
