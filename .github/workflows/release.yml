@@ -5,10 +5,13 @@ name: Release Branch CI
 
 on:
   push:
-    branches: [ release ]
+    branches:
+      - release
+    tags:
+      - '*rc*'
   pull_request:
-    branches: [ release ]
-
+    branches:
+      - release
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -39,3 +42,15 @@ jobs:
         pip install pytest
         pip install pytest-mock
         pytest -vv -s
+    - name: Build dist
+      if: github.event_name == 'push' && startsWith(github.event.ref, 'refs/tags')
+      run: |
+        pip install --user --upgrade setuptools wheel
+        python setup.py sdist bdist_wheel
+    - name: Publish package to test PyPi
+      if: github.event_name == 'push' && startsWith(github.event.ref, 'refs/tags')
+      uses: pypa/gh-action-pypi-publish@master
+      with:
+        user: __token__
+        password: ${{ secrets.PYPI_TEST_TOKEN }}
+        repository_url: https://test.pypi.org/legacy/
