@@ -19,12 +19,16 @@ jobs:
       matrix:
         python-version: [3.6]
     steps:
+    - uses: actions/checkout@v2
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v1
+      with:
+        python-version: ${{ matrix.python-version }}
     - name: Build dist
       if: github.event_name == 'push' && startsWith(github.event.ref, 'refs/tags')
       run: |
         pip install --user --upgrade setuptools wheel
-        ls -l
-        python3 setup.py sdist bdist_wheel
+        python setup.py sdist bdist_wheel
     - name: Publish package to test PyPi
       if: github.event_name == 'push' && startsWith(github.event.ref, 'refs/tags')
       uses: pypa/gh-action-pypi-publish@master
