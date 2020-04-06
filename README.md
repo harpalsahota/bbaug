@@ -1,4 +1,4 @@
-![Alt text](./coverage.svg) ![Develop Branch CI](https://github.com/harpalsahota/bbaug/workflows/Develop%20Branch%20CI/badge.svg?branch=develop)
+![Alt text](./coverage.svg) ![Master Branch Dist CI](https://github.com/harpalsahota/bbaug/workflows/Master%20Branch%20Dist%20CI/badge.svg?branch=master)
 
 
 # BBAug
