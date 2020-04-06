@@ -49,6 +49,7 @@ jobs:
     strategy:
       matrix:
         python-version: [3.6]
+    steps:
     - name: Build dist
       if: github.event_name == 'push' && startsWith(github.event.ref, 'refs/tags')
       run: |
