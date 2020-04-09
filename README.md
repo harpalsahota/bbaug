@@ -103,6 +103,7 @@ visualise_policy(
     'path/to/image',
     'save/dir/of/augmentations',
     bounding_boxes, # Bounding boxes is a list of list of bounding boxes in pixels (int): e.g. [[x_min, y_min, x_man, y_max], [x_min, y_min, x_man, y_max]]
+    labels, # Class labels for the bounding boxes as an iterable of ints eg. [0, 5]
     policy, # the policy to visualise
     name_to_augmentation, # (optional, default: augmentations.NAME_TO_AUGMENTATION) The dictionary mapping the augmentation name to the augmentation method
 )
@@ -132,7 +133,8 @@ random_policy = policy_container.select_random_policy()
 # Image is a numpy array of the image
 # Bounding boxes is a list of list of bounding boxes in pixels (int).
 # e.g. [[x_min, y_min, x_man, y_max], [x_min, y_min, x_man, y_max]]
-img_aug, bbs_aug = policy_container.apply_augmentation(random_policy, image, bounding_boxes)
+# Labels are the class labels for the bounding boxes as an iterable of ints e.g. [1,0]
+img_aug, bbs_aug = policy_container.apply_augmentation(random_policy, image, bounding_boxes, labels)
 ```
 ## Policy Implementation
 The policies implemented in `bbaug` are shown below. Each column represents a different run for that given sub-policy
