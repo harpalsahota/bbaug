@@ -6,9 +6,12 @@ authors = ["Harpal Sahota"]
 
 [tool.poetry.dependencies]
 python = "^3.6"
-torch = {url = "https://download.pytorch.org/whl/cu101/torch-1.4.0-cp37-cp37m-win_amd64.whl"}
-torchvision = {url = "https://download.pytorch.org/whl/cu101/torchvision-0.5.0-cp37-cp37m-win_amd64.whl"}
+torch = "^1.4.0"
+torchvision = "^0.5.0"
 imgaug = "^0.4.0"
+# For Windows Users
+#torch = {url = "https://download.pytorch.org/whl/cu101/torch-1.4.0-cp37-cp37m-win_amd64.whl"}
+#torchvision = {url = "https://download.pytorch.org/whl/cu101/torchvision-0.5.0-cp37-cp37m-win_amd64.whl"}
 
 [tool.poetry.dev-dependencies]
 pytest = "^5.4.1"
