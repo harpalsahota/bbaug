@@ -153,6 +153,11 @@ def test_cutout(mocker):
     args, kwargs = aug_mock.call_args_list[0]
     assert {'size': pytest.approx((0.1, 0.1))} == kwargs
 
+    aug_mock.reset_mock()
+    augmentations.cutout(10, height=10, width=10)
+    args, kwargs = aug_mock.call_args_list[0]
+    assert {'size': pytest.approx((1.0, 1.0))} == kwargs
+
 
 def test_cutout_bbox(mocker):
 
@@ -176,6 +181,18 @@ def test_cutout_bbox(mocker):
     assert 'size' in kwargs
     assert {'size': pytest.approx((0.1, 0.1))} == kwargs
     aug_cutout_mock.assert_called_with(size=pytest.approx((0.1, 0.1)))
+
+    aug_mock.reset_mock()
+    aug_cutout_mock.reset_mock()
+    augmentations.cutout_bbox(10, height=250, width=5)
+    args, kwargs = aug_mock.call_args_list[0]
+    assert tuple([None]) == args
+    assert 'foreground' in kwargs
+    args, kwargs = aug_cutout_mock.call_args_list[0]
+    assert tuple() == args
+    assert 'size' in kwargs
+    assert {'size': pytest.approx((0.2, 1.0))} == kwargs
+    aug_cutout_mock.assert_called_with(size=pytest.approx((0.2, 1.0)))
 
 
 def test_cutout_fraction(mocker):
