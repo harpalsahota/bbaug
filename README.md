@@ -5,7 +5,8 @@
 
 BBAug is a Python package for the implementation of Google’s Brain Team’s bounding box augmentation policies. 
 The package is aimed for PyTorch users who wish to use these policies in the augmentation of bounding boxes during the 
-training of a model. This package builds on top of the excellent image augmentations package [imgaug](https://github.com/aleju/imgaug).
+training of a model. Currently all 4 versions of the policies are implemented. This package builds on top of the excellent 
+image augmentations package [imgaug](https://github.com/aleju/imgaug).
 
 **References**
 - [Paper](https://arxiv.org/abs/1906.11172)
@@ -13,7 +14,7 @@ training of a model. This package builds on top of the excellent image augmentat
 
 ## Features
 
-- [x] Implementation of version 3 of policies
+- [x] Implementation of all 4 policies
 - [x] Custom policies
 - [x] Custom augmentations
 - [x] Bounding boxes are removed if they fall outside of the image*
