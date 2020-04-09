@@ -137,7 +137,7 @@ class TestPolicyContainer:
         )
         policy = [policies.POLICY_TUPLE('Cutout_BBox', 0.2, 10)]
         bbs = [[0, 0, 25, 25]]
-        p.apply_augmentation(policy, np.zeros((100, 100, 3)).astype('uint8'), bbs)
+        p.apply_augmentation(policy, np.zeros((100, 100, 3)).astype('uint8'), bbs, [0])
         assert bbcutout_mock.called
         bbcutout_mock.assert_called_with(10, height=100, width=100)
         assert not bbs_to_percent_mock.called
@@ -153,7 +153,7 @@ class TestPolicyContainer:
             return_yolo=True
         )
         policy = [policies.POLICY_TUPLE('Color', 0.2, 10)]
-        p.apply_augmentation(policy, np.zeros((100, 100, 3)).astype('uint8'), bbs)
+        p.apply_augmentation(policy, np.zeros((100, 100, 3)).astype('uint8'), bbs,  [1])
         assert colour_mock.called
         assert bbs_to_percent_mock.called
         assert not bbs_to_pixel_mock.called
@@ -166,7 +166,7 @@ class TestPolicyContainer:
             name_to_augmentation={'Cutout_Fraction': cutout_fraction_mock},
         )
         policy = [policies.POLICY_TUPLE('Cutout_Fraction', 0.2, 10)]
-        p.apply_augmentation(policy, np.zeros((100, 100, 3)).astype('uint8'), [])
+        p.apply_augmentation(policy, np.zeros((100, 100, 3)).astype('uint8'), [], [])
         assert cutout_fraction_mock.called
         cutout_fraction_mock.assert_called_with(10)
 
@@ -178,6 +178,6 @@ class TestPolicyContainer:
         )
         policy = [policies.POLICY_TUPLE('Cutout_Fraction', 0.2, 10)]
         bbs = [[0, 0, 25, 25]]
-        p.apply_augmentation(policy, np.zeros((100, 100, 3)).astype('uint8'), bbs)
+        p.apply_augmentation(policy, np.zeros((100, 100, 3)).astype('uint8'), bbs, [5])
         assert cutout_fraction_mock.called
         cutout_fraction_mock.assert_called_with(10, height=100, width=100, height_bbox=25, width_bbox=25)

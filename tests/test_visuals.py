@@ -38,6 +38,7 @@ def test_visualise_policy(mocker):
         './test/image/dir.png',
         './test/save/dir',
         [[0, 50, 25, 75]],
+        [9],
         [[POLICY_TUPLE('Color', 0.2, 10)]],
         name_to_augmentation={'Color': colour_mock}
     )
