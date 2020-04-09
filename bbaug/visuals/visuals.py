@@ -61,7 +61,8 @@ def visualise_policy(
             img_aug, bbs_aug = policy_container.apply_augmentation(
                 pol,
                 image,
-                bounding_boxes
+                bounding_boxes,
+                labels,
             )
             bbs_aug = BoundingBoxesOnImage([
                 BoundingBox(*box, label=label)
