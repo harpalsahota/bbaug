@@ -3,6 +3,7 @@
 from typing import (
     Callable,
     Dict,
+    Iterable,
     List
 )
 
@@ -25,6 +26,7 @@ def visualise_policy(
         image_path: str,
         save_path: str,
         bounding_boxes: List[List[int]],
+        labels: Iterable[int],
         policy: List[List[POLICY_TUPLE_TYPE]],
         name_to_augmentation: Dict[str, Callable] = NAME_TO_AUGMENTATION
 ) -> None:
@@ -37,6 +39,8 @@ def visualise_policy(
     :param save_path: Directory where to save the images
     :type bounding_boxes: List[List[int]]
     :param bounding_boxes: Bounding boxes for the image
+    :type labels: Iterable[int]
+    :param labels: Iterable containing class labels as integers
     :type policy: List[List[POLICY_TUPLE_TYPE]]
     :param policy: The policy set to apply to the image
     :type name_to_augmentation: Dict[str, Callable]
@@ -55,12 +59,13 @@ def visualise_policy(
         [ax.axis('off') for ax in axes]
         for ax in range(3):
             img_aug, bbs_aug = policy_container.apply_augmentation(
-                pol, image,
+                pol,
+                image,
                 bounding_boxes
             )
             bbs_aug = BoundingBoxesOnImage([
-                BoundingBox(*box)
-                for box in bbs_aug
+                BoundingBox(*box, label=label)
+                for box, label in zip(bbs_aug, labels)
             ], shape=image.shape)
             axes[ax].imshow(bbs_aug.draw_on_image(img_aug, size=2))
         fig.suptitle(pol)

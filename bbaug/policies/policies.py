@@ -8,6 +8,7 @@ import random
 from typing import (
     Callable,
     Dict,
+    Iterable,
     List,
     NamedTuple,
     Tuple,
@@ -434,7 +435,8 @@ class PolicyContainer:
             self,
             policy: List[POLICY_TUPLE],
             image: np.array,
-            bounding_boxes: List[List[int]]
+            bounding_boxes: List[List[int]],
+            labels: Iterable[int],
     ) -> Tuple[np.array, np.array]:
         """
         Applies the augmentations to the image.
@@ -446,11 +448,16 @@ class PolicyContainer:
         :type bounding_boxes: List[List[int]]
         :param bounding_boxes: Bounding boxes for the image in the format:
                                [x_min, y_min, x_max, y_max]
+        :type labels: Iterable[int]
+        :param labels: Iterable containing class labels as integers
         :rtype: Tuple[np.array, np.array]
         :return: Tuple containing the augmented image and bounding boxes
         """
         bbs = BoundingBoxesOnImage(
-            [BoundingBox(*bb) for bb in bounding_boxes],
+            [
+                BoundingBox(*bb, label=label)
+                for bb, label in zip(bounding_boxes, labels)
+            ],
             image.shape
         )
         for i in policy:
