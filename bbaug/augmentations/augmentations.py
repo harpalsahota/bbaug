@@ -217,10 +217,10 @@ def cutout(magnitude: int, **kwargs) -> iaa.Cutout:
     level = int((magnitude / _MAX_MAGNITUDE) * CUTOUT_CONST)
     cutout_args = {}
     if 'height' in kwargs and 'width' in kwargs:
-        size = tuple([
+        size = tuple(np.clip([
             (level / kwargs['height']) * 2,
             (level / kwargs['width']) * 2
-        ])
+        ], 0.0, 1.0))
         cutout_args['size'] = size
     return iaa.Cutout(**cutout_args)
 
@@ -287,7 +287,10 @@ def cutout_bbox(magnitude: int, **kwargs) -> iaa.BlendAlphaBoundingBoxes:
     level = int((magnitude/_MAX_MAGNITUDE) * CUTOUT_BBOX)
     cutout_args = {}
     if 'height' in kwargs and 'width' in kwargs:
-        size = tuple([level / kwargs['height'], level / kwargs['width']])
+        size = tuple(np.clip([
+            level / kwargs['height'],
+            level / kwargs['width']
+        ], 0.0, 1.0))
         cutout_args['size'] = size
     return iaa.BlendAlphaBoundingBoxes(
         None,
