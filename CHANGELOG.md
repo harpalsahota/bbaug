@@ -1,3 +1,6 @@
+# 0.3.0
+- Class labels are now required for bounding boxes
+
 # 0.2.1
 - Fixed bug where the cutout would be larger than the image
 
