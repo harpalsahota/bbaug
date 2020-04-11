@@ -7,7 +7,7 @@ with open('README.md', encoding='utf-8') as f:
 
 setup(
     name='bbaug',
-    version='0.3.0-rc.0',
+    version='0.3.0-rc.1',
     author='Harpal Sahota',
     author_email='harpal28sahota@gmail.com',
     description=description,
