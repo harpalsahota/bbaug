@@ -394,6 +394,7 @@ class PolicyContainer:
         """
         return np.array([
             [
+                bb.label,
                 bb.center_x / image_width,
                 bb.center_y / image_height,
                 bb.width / image_width,
@@ -414,6 +415,7 @@ class PolicyContainer:
         """
         return np.array([
             [
+                bb.label,
                 bb.x1,
                 bb.y1,
                 bb.x2,
