@@ -94,24 +94,24 @@ class TestPolicyContainer:
     def test__bbs_to_percent(self):
         p = policies.PolicyContainer(policies.policies_v3())
         bbs = BoundingBoxesOnImage(
-            [BoundingBox(*bb) for bb in [[0, 0, 25, 25]]],
+            [BoundingBox(*bb, label=label) for bb, label in zip([[0, 0, 25, 25]], [0])],
             (100, 100)
         )
         res = p._bbs_to_percent(bbs, 100, 100)
         assert np.allclose(
-            np.array([[0.125, 0.125, 0.25, 0.25]]),
+            np.array([[0, 0.125, 0.125, 0.25, 0.25]]),
             res
         )
 
     def test__bbs_to_pixek(self):
         p = policies.PolicyContainer(policies.policies_v3())
         bbs = BoundingBoxesOnImage(
-            [BoundingBox(*bb) for bb in [[0, 0, 25, 25]]],
+            [BoundingBox(*bb, label=label) for bb, label in zip([[0, 0, 25, 25]], [1])],
             (100, 100)
         )
         res = p._bbs_to_pixel(bbs)
         assert np.array_equal(
-            np.array([[0, 0, 25, 25]]),
+            np.array([[1, 0, 0, 25, 25]]),
             res
         )
 
