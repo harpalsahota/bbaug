@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "bbaug"
-version = "0.4.0-beta.0"
+version = "0.4.0-rc.0"
 description = "Bounding box augmentations for Pytorch"
 authors = ["Harpal Sahota"]
 
