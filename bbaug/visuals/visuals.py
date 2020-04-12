@@ -65,8 +65,8 @@ def visualise_policy(
                 labels,
             )
             bbs_aug = BoundingBoxesOnImage([
-                BoundingBox(*box, label=label)
-                for box, label in zip(bbs_aug, labels)
+                BoundingBox(*box[1:], label=box[0])
+                for box in bbs_aug
             ], shape=image.shape)
             axes[ax].imshow(bbs_aug.draw_on_image(img_aug, size=2))
         fig.suptitle(pol)
