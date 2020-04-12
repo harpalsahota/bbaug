@@ -1,3 +1,7 @@
+# 0.4.0
+- Apply augmentations to bounding boxes individually
+- Fixed bug in `visualise_policy`
+
 # 0.3.0
 - Class labels are now required for bounding boxes
 

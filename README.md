@@ -26,7 +26,7 @@ image augmentations package [imgaug](https://github.com/aleju/imgaug).
 ## To Do
 - [x] ~~Implementation of version 2 of policies~~ (implemented in v0.2)
 - [x] ~~Implementation of version 1 of policies~~ (implemented in v0.2)
-- [ ] For bounding box augmentations apply the probability individually for each box not collectively
+- [x] ~~For bounding box augmentations apply the probability individually for each box not collectively~~ (implemented in v0.4)
 
 ## Installation
 
@@ -135,6 +135,8 @@ random_policy = policy_container.select_random_policy()
 # e.g. [[x_min, y_min, x_man, y_max], [x_min, y_min, x_man, y_max]]
 # Labels are the class labels for the bounding boxes as an iterable of ints e.g. [1,0]
 img_aug, bbs_aug = policy_container.apply_augmentation(random_policy, image, bounding_boxes, labels)
+# image_aug: numpy array of the augmented image
+# bbs_aug: numpy array of augmneted bounding boxes in format: [[label, x_min, y_min, x_man, y_max],...]
 ```
 ## Policy Implementation
 The policies implemented in `bbaug` are shown below. Each column represents a different run for that given sub-policy
