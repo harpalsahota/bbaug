@@ -424,6 +424,20 @@ class PolicyContainer:
             for bb in bounding_boxes
         ]).astype('int32')
 
+    def _cutout_kwargs(self, image_shape: Tuple[int, int]) -> Dict[str, int]:
+        """
+        Returns the kwargs for cutout augmentations
+
+        :type image_shape: Tuple[int, int]
+        :param image_shape: Shape of the image
+        :rtype: Dict[str, int]
+        :return: Kwargs for cutout augmentations
+        """
+        return {
+            'height': image_shape[0],
+            'width': image_shape[1]
+        }
+
     def select_random_policy(self) -> List[POLICY_TUPLE]:
         """
         Selects a random policy from the list of available policies
@@ -463,12 +477,26 @@ class PolicyContainer:
             image.shape
         )
         for i in policy:
-            if np.random.random() < i.probability:
-                if (i.name == 'Cutout') or (i.name == 'Cutout_BBox'):
-                    kwargs = {
-                        'height': image.shape[0],
-                        'width': image.shape[1]
-                    }
+            if i.name.endswith('BBox'):
+                new_bbs = []
+                for box in bbs:
+                    if i.probability > np.random.random():
+                        if i.name == 'Cutout_BBox':
+                            kwargs = self._cutout_kwargs(image.shape)
+                            aug = self[i.name](i.magnitude, **kwargs)
+                        else:
+                            aug = self[i.name](i.magnitude)
+                        image, box_aug = aug(
+                            image=image,
+                            bounding_boxes=BoundingBoxesOnImage([box], image.shape)  # noqa: E501
+                        )
+                        new_bbs.append(box_aug[0])
+                    else:
+                        new_bbs.append(box)
+                bbs = BoundingBoxesOnImage(new_bbs, image.shape)
+            elif i.probability > np.random.random():
+                if i.name == 'Cutout':
+                    kwargs = self._cutout_kwargs(image.shape)
                     aug = self[i.name](i.magnitude, **kwargs)
                 elif i.name == 'Cutout_Fraction':
                     if len(bbs) == 0:
