@@ -32,7 +32,7 @@ def test_visualise_policy(mocker):
     imgio_mock.imread.return_value = MockShape()
     policy_container_mock().apply_augmentation.return_value = (
         np.zeros((100, 100, 3)).astype('uint8'),
-        np.array([[0, 50, 25, 75]])
+        np.array([[9, 0, 50, 25, 75]])
     )
     visualise_policy(
         './test/image/dir.png',

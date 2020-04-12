@@ -145,6 +145,54 @@ class TestPolicyContainer:
 
         bbs_to_percent_mock.reset_mock()
         bbs_to_pixel_mock.reset_mock()
+        numpy_random_mock.return_value = 1.0
+        bbcutout_mock.reset_mock()
+        p = policies.PolicyContainer(
+            policies.policies_v3(),
+            name_to_augmentation={'Cutout_BBox': bbcutout_mock},
+        )
+        policy = [policies.POLICY_TUPLE('Cutout_BBox', 0.2, 10)]
+        bbs = [[0, 0, 25, 25]]
+        p.apply_augmentation(policy, np.zeros((100, 100, 3)).astype('uint8'), bbs, [0])
+        assert not bbcutout_mock.called
+        assert not bbs_to_percent_mock.called
+        assert bbs_to_pixel_mock.called
+
+        bbs_to_percent_mock.reset_mock()
+        bbs_to_pixel_mock.reset_mock()
+        numpy_random_mock.return_value = 0.0
+        bbcutout_mock.reset_mock()
+        p = policies.PolicyContainer(
+            policies.policies_v3(),
+            name_to_augmentation={'BBox': bbcutout_mock},
+        )
+        policy = [policies.POLICY_TUPLE('BBox', 0.2, 10)]
+        bbs = [[0, 0, 25, 25]]
+        p.apply_augmentation(policy, np.zeros((100, 100, 3)).astype('uint8'), bbs, [0])
+        assert bbcutout_mock.called
+        assert not bbs_to_percent_mock.called
+        assert bbs_to_pixel_mock.called
+
+        bbs_to_percent_mock.reset_mock()
+        bbs_to_pixel_mock.reset_mock()
+        numpy_random_mock.return_value = 0.0
+        cutout_mock = mocker.patch('bbaug.augmentations.augmentations.cutout')
+        cutout_mock.return_value = aug_mock
+        p = policies.PolicyContainer(
+            policies.policies_v3(),
+            name_to_augmentation={'Cutout': cutout_mock},
+        )
+        policy = [policies.POLICY_TUPLE('Cutout', 0.2, 10)]
+        bbs = [[0, 0, 25, 25]]
+        p.apply_augmentation(policy, np.zeros((250, 300, 3)).astype('uint8'), bbs, [0])
+        assert cutout_mock.called
+        assert not bbs_to_percent_mock.called
+        assert bbs_to_pixel_mock.called
+        cutout_mock.assert_called_with(10, height=250, width=300)
+
+        numpy_random_mock.return_value = 0.0
+        bbs_to_percent_mock.reset_mock()
+        bbs_to_pixel_mock.reset_mock()
         colour_mock = mocker.patch('bbaug.augmentations.augmentations.colour')
         colour_mock.return_value = aug_mock
         p = policies.PolicyContainer(
