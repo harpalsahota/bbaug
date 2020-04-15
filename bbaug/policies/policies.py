@@ -12,6 +12,7 @@ from typing import (
     List,
     NamedTuple,
     Tuple,
+    Union,
 )
 
 from imgaug.augmentables.bbs import (
@@ -344,7 +345,8 @@ class PolicyContainer:
             self,
             policy_set: List[List[POLICY_TUPLE_TYPE]],
             name_to_augmentation: Dict[str, Callable] = NAME_TO_AUGMENTATION,
-            return_yolo: bool = False
+            return_yolo: bool = False,
+            random_state: Union[None, int] = None,
     ):
         """
         Policy container initialisation
@@ -357,10 +359,15 @@ class PolicyContainer:
         :type return_yolo: bool
         :param return_yolo: Flag for returning the bounding boxes in YOLO
                             format
+        :type random_state: Union[None, int]
+        :param random_state: Provide a random state for reproducibility
         """
         self.policies = policy_set
         self.augmentations = name_to_augmentation
         self.return_yolo = return_yolo
+        if random_state is not None:
+            random.seed(random_state)
+            np.random.seed(random_state)
 
     def __getitem__(self, item: str) -> Callable:
         """
