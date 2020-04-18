@@ -1,3 +1,6 @@
+# 0.4.1
+- Now possible to pass a random state to the policy container ensuring reproducible augmentations
+
 # 0.4.0
 - Apply augmentations to bounding boxes individually
 - Fixed bug in `visualise_policy`
