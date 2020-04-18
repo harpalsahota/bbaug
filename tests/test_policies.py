@@ -87,6 +87,18 @@ def test_policies_v3():
 
 class TestPolicyContainer:
 
+    def test__init__(self, mocker):
+        random_mocker = mocker.patch('bbaug.policies.policies.random.seed')
+        numpy_random_mocker = mocker.patch('bbaug.policies.policies.np.random.seed')
+
+        p = policies.PolicyContainer(policies.policies_v3())
+        assert not random_mocker.called
+        assert not numpy_random_mocker.called
+
+        p = policies.PolicyContainer(policies.policies_v3(), random_state=42)
+        random_mocker.assert_called_with(42)
+        numpy_random_mocker.assert_called_with(42)
+
     def test___get__item(self):
         p = policies.PolicyContainer(policies.policies_v3())
         assert p['Color'].__name__ == 'colour'
