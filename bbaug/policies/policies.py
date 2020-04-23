@@ -520,7 +520,7 @@ class PolicyContainer:
                 else:
                     aug = self[i.name](i.magnitude)
                 image, bbs = aug(image=image, bounding_boxes=bbs)
-                bbs = bbs.remove_out_of_image().clip_out_of_image()
+            bbs = bbs.remove_out_of_image().clip_out_of_image()
         if self.return_yolo:
             bbs = self._bbs_to_percent(bbs, image.shape[0], image.shape[1])
         else:
