@@ -1,3 +1,6 @@
+# 0.4.2
+- Fixed bug where bounding box specific augmentations would not be clipped or removed
+
 # 0.4.1
 - Now possible to pass a random state to the policy container ensuring reproducible augmentations
 
