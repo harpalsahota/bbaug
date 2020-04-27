@@ -132,7 +132,7 @@ random_policy = policy_container.select_random_policy()
 # Apply the augmentation. Returns the augmented image and bounding boxes.
 # Image is a numpy array of the image
 # Bounding boxes is a list of list of bounding boxes in pixels (int).
-# e.g. [[x_min, y_min, x_man, y_max], [x_min, y_min, x_man, y_max]]
+# e.g. [[x_min, y_min, x_man, y_max], [x_min, y_min, x_max, y_max]]
 # Labels are the class labels for the bounding boxes as an iterable of ints e.g. [1,0]
 img_aug, bbs_aug = policy_container.apply_augmentation(random_policy, image, bounding_boxes, labels)
 # image_aug: numpy array of the augmented image
