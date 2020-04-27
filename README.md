@@ -1,4 +1,4 @@
-![Alt text](./coverage.svg) ![Master Branch Dist CI](https://github.com/harpalsahota/bbaug/workflows/Master%20Branch%20Dist%20CI/badge.svg?branch=master)
+![Master Branch Dist CI](https://github.com/harpalsahota/bbaug/workflows/Master%20Branch%20Dist%20CI/badge.svg?branch=master) ![Alt text](./coverage.svg) [![PyPI version](https://badge.fury.io/py/bbaug.svg)](https://badge.fury.io/py/bbaug) [![Downloads](https://pepy.tech/badge/bbaug)](https://pepy.tech/project/bbaug)
 
 
 # BBAug
