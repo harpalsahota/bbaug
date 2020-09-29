@@ -165,7 +165,7 @@ def policies_v1() -> List[List[POLICY_TUPLE_TYPE]]:
 
 def policies_v2() -> List[List[POLICY_TUPLE_TYPE]]:
     """
-    Version 1 of augmentation policies
+    Version 2 of augmentation policies
     ​
     :rtype: List[List[POLICY_TUPLE_TYPE]]
     :return: List of policies
